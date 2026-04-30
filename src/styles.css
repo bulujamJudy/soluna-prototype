@@ -106,6 +106,15 @@ button {
   background: transparent;
 }
 
+.feature-tabs button {
+  display: inline-grid;
+  width: 48px;
+  height: 48px;
+  min-height: 48px;
+  place-items: center;
+  padding: 0;
+}
+
 .feature-tabs button.is-active,
 .compare-toggle button.is-active {
   background: var(--surface);
@@ -195,16 +204,20 @@ button {
 .demo-dock {
   position: relative;
   z-index: 3;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
   align-items: center;
   justify-content: center;
-  max-width: min(760px, calc(100vw - 32px));
+  max-width: min(420px, calc(100vw - 32px));
   margin-top: -22px;
   padding: 8px;
   gap: 10px;
-  border: 1px solid rgba(209, 213, 219, 0.9);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.82);
+}
+
+.demo-dock .feature-tabs,
+.demo-dock .compare-toggle {
+  border-color: rgba(209, 213, 219, 0.94);
+  background: rgba(255, 255, 255, 0.84);
   box-shadow: 0 18px 44px rgba(17, 24, 39, 0.14);
   backdrop-filter: blur(18px);
 }
@@ -293,8 +306,7 @@ button {
   .demo-dock {
     order: 1;
     margin-top: 0;
-    flex-wrap: wrap;
-    border-radius: 28px;
+    max-width: min(420px, 100%);
   }
 
   .feature-tabs,
@@ -519,15 +531,17 @@ button {
   }
 
   .demo-dock {
-    justify-content: flex-start;
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 24px;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: auto;
   }
 
   .feature-tabs button,
   .compare-toggle button {
-    padding-inline: 12px;
     white-space: nowrap;
+  }
+
+  .compare-toggle button {
+    padding-inline: 12px;
   }
 }
