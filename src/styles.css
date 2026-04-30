@@ -21,8 +21,8 @@
   --ios-inner-line: inset 0 0 0 1px rgba(60, 60, 67, 0.12);
   --iphone-17-screen-width: 402px;
   --iphone-17-screen-height: 874px;
-  --phone-bezel: 10px;
-  --phone-inset: 12px;
+  --phone-bezel: 3px;
+  --phone-inset: 6px;
   --phone-frame-width: calc(var(--iphone-17-screen-width) + (var(--phone-bezel) + var(--phone-inset)) * 2);
   --phone-frame-height: calc(var(--iphone-17-screen-height) + (var(--phone-bezel) + var(--phone-inset)) * 2);
 }
@@ -62,7 +62,7 @@ textarea:focus-visible {
 
 .demo-shell {
   min-height: 100vh;
-  padding: clamp(28px, 6vh, 72px) clamp(22px, 5vw, 72px) 28px;
+  padding: clamp(22px, 4vh, 44px) clamp(22px, 5vw, 72px) 28px;
   overflow-x: hidden;
 }
 
@@ -73,21 +73,23 @@ textarea:focus-visible {
 }
 
 .demo-intro {
-  max-width: 470px;
+  width: 100%;
+  max-width: 240px;
+  text-align: left;
 }
 
 .demo-intro h1 {
-  max-width: 520px;
-  font-size: clamp(42px, 4vw, 56px);
+  max-width: 100%;
+  font-size: clamp(26px, 2.1vw, 34px);
   line-height: 1.05;
 }
 
 .demo-intro p:not(.eyebrow) {
-  max-width: 430px;
-  margin: 22px 0 0;
+  max-width: 240px;
+  margin: 10px 0 0;
   color: var(--muted);
-  font-size: clamp(18px, 1.5vw, 23px);
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.45;
 }
 
 .eyebrow {
@@ -98,7 +100,6 @@ textarea:focus-visible {
   text-transform: uppercase;
 }
 
-.feature-tabs,
 .compare-toggle {
   display: inline-flex;
   flex: 0 0 auto;
@@ -109,7 +110,6 @@ textarea:focus-visible {
   background: rgba(242, 242, 247, 0.72);
 }
 
-.feature-tabs button,
 .compare-toggle button {
   min-height: 44px;
   border: 0;
@@ -120,56 +120,104 @@ textarea:focus-visible {
   transition: background 140ms ease, box-shadow 140ms ease, transform 140ms ease;
 }
 
-.feature-tabs button {
-  display: inline-grid;
-  width: 48px;
-  height: 48px;
-  min-height: 48px;
-  place-items: center;
+.feature-menu {
+  grid-area: featureNav;
+  position: fixed;
+  top: clamp(34px, 5vh, 58px);
+  left: clamp(14px, 1.5vw, 24px);
+  z-index: 5;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 36px;
+  width: 240px;
   padding: 0;
 }
 
-.feature-tabs button.is-active,
+.feature-menu-items {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feature-menu-items button {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  color: #a0a0a6;
+  background: transparent;
+  transition: color 140ms ease, transform 140ms ease;
+}
+
+.feature-menu-items button span {
+  color: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
 .compare-toggle button.is-active {
   background: var(--surface);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 6px 14px rgba(0, 0, 0, 0.07);
 }
 
-.demo-layout {
-  display: grid;
-  grid-template-columns: minmax(320px, 470px) minmax(446px, 560px);
-  grid-template-areas:
-    "intro device"
-    "narrative device";
-  grid-template-rows: auto auto;
-  gap: clamp(48px, 8vw, 128px);
-  row-gap: 34px;
-  align-items: start;
-  justify-content: center;
-  min-height: calc(100vh - 112px);
-  max-width: 1320px;
-  margin: 0 auto;
+.feature-menu-items button.is-active {
+  color: var(--text);
+  font-weight: 800;
 }
 
-.demo-intro {
-  grid-area: intro;
-  align-self: center;
+.feature-menu-items button.is-active span {
+  font-weight: 800;
+}
+
+.demo-layout {
+  display: grid;
+  grid-template-columns: minmax(500px, 640px) minmax(420px, 1fr);
+  grid-template-areas:
+    "narrative device";
+  column-gap: clamp(36px, 5vw, 76px);
+  align-items: start;
+  justify-content: stretch;
+  min-height: calc(100vh - 72px);
+  max-width: none;
+  margin: 0 0 0 calc(clamp(14px, 1.5vw, 24px) + 15vw);
 }
 
 .narrative-panel {
   grid-area: narrative;
-  max-width: 470px;
+  width: 100%;
+  max-width: 620px;
+  justify-self: start;
   padding: 0;
 }
 
+.feature-kicker {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.narrative-panel h2 {
+  margin: 0;
+  font-size: clamp(34px, 3vw, 48px);
+  line-height: 1.02;
+}
+
 .narrative-panel section {
-  padding: 14px 0;
+  padding: 18px 0;
   border-bottom: 1px solid var(--line);
 }
 
 .narrative-panel h3 {
   margin: 0 0 8px;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .narrative-panel p,
@@ -204,33 +252,45 @@ textarea:focus-visible {
 
 .device-column {
   grid-area: device;
+  position: fixed;
+  top: 50vh;
+  right: clamp(22px, 5vw, 72px);
+  left: calc(clamp(22px, 5vw, 72px) + clamp(14px, 1.5vw, 24px) + 15vw + 640px);
+  width: auto;
   display: grid;
   justify-items: center;
+  align-self: start;
+  align-content: center;
   gap: 0;
+  min-height: 0;
+  transform: translateY(-50%);
 }
 
 .phone-stage {
   display: grid;
   justify-items: center;
+  width: 100%;
+  min-width: 0;
 }
 
 .phone-frame {
   position: relative;
-  width: min(var(--phone-frame-width), calc(100vw - 56px));
+  width: min(var(--phone-frame-width), calc((100vh - 140px) * 0.4709));
+  min-width: 0;
   height: auto;
-  aspect-ratio: 446 / 918;
+  aspect-ratio: 420 / 892;
   padding: var(--phone-inset);
-  border: var(--phone-bezel) solid #111;
-  border-radius: 48px;
-  background: #111;
-  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.2);
+  border: var(--phone-bezel) solid #161616;
+  border-radius: 39px;
+  background: linear-gradient(90deg, #050505, #2b2b2d 16%, #0b0b0c 50%, #343436 84%, #050505);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18), 0 22px 56px rgba(0, 0, 0, 0.2);
 }
 
 .demo-dock {
   position: relative;
   z-index: 3;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
   align-items: center;
   justify-content: center;
   max-width: min(420px, calc(100vw - 32px));
@@ -239,7 +299,6 @@ textarea:focus-visible {
   gap: 10px;
 }
 
-.demo-dock .feature-tabs,
 .demo-dock .compare-toggle {
   border-color: rgba(60, 60, 67, 0.14);
   background: rgba(255, 255, 255, 0.78);
@@ -249,20 +308,22 @@ textarea:focus-visible {
 
 .phone-sensor {
   position: absolute;
-  top: 16px;
+  top: 14px;
   left: 50%;
   z-index: 2;
-  width: 112px;
-  height: 28px;
+  width: 96px;
+  height: 27px;
   transform: translateX(-50%);
   border-radius: 999px;
   background: #050505;
 }
 
 .phone-screen {
+  min-width: 0;
   height: 100%;
   overflow: hidden;
-  border-radius: 34px;
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  border-radius: 31px;
   background: var(--surface-grouped);
 }
 
@@ -278,7 +339,6 @@ textarea:focus-visible {
 }
 
 .video-box {
-  margin: 18px;
   padding: 24px;
   border: 1px dashed rgba(60, 60, 67, 0.3);
   border-radius: 28px;
@@ -302,17 +362,45 @@ textarea:focus-visible {
 @media (max-width: 1040px) {
   .demo-layout {
     grid-template-areas:
-      "intro"
+      "featureNav"
       "device"
       "narrative";
     grid-template-columns: 1fr;
     gap: 36px;
     min-height: auto;
+    margin: 0 auto;
   }
 
   .demo-intro {
+    width: min(var(--phone-frame-width), 100%);
+    max-width: min(var(--phone-frame-width), 100%);
     justify-self: center;
     text-align: center;
+  }
+
+  .demo-intro p:not(.eyebrow) {
+    width: 80%;
+    max-width: none;
+    margin-inline: auto;
+  }
+
+  .feature-menu {
+    position: static;
+    top: auto;
+    left: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    width: auto;
+    max-width: 100%;
+    overflow-x: auto;
+    transform: none;
+  }
+
+  .feature-menu-items {
+    flex-direction: row;
+    max-width: 100%;
+    overflow-x: auto;
   }
 
   .narrative-panel {
@@ -321,10 +409,18 @@ textarea:focus-visible {
   }
 
   .device-column {
+    position: static;
+    top: auto;
+    right: auto;
+    left: auto;
+    width: auto;
+    justify-items: center;
     gap: 18px;
+    transform: none;
   }
 
   .phone-stage {
+    justify-items: center;
     order: 2;
   }
 
@@ -334,7 +430,11 @@ textarea:focus-visible {
     max-width: min(420px, 100%);
   }
 
-  .feature-tabs,
+  .phone-frame {
+    max-width: 100%;
+  }
+
+  .feature-menu,
   .compare-toggle {
     overflow-x: auto;
     max-width: 100%;
@@ -356,8 +456,8 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: 44px 1fr 44px;
   align-items: center;
-  min-height: 66px;
-  padding: 18px 12px 9px;
+  min-height: 88px;
+  padding: 40px 12px 10px;
   border-bottom: 1px solid var(--line);
   background: rgba(246, 246, 248, 0.86);
   backdrop-filter: blur(18px) saturate(180%);
@@ -750,6 +850,7 @@ textarea:focus-visible {
   }
 
   .demo-intro h1 {
+    max-width: 100%;
     font-size: 38px;
   }
 
@@ -763,7 +864,7 @@ textarea:focus-visible {
     width: auto;
   }
 
-  .feature-tabs button,
+  .feature-menu button,
   .compare-toggle button {
     white-space: nowrap;
   }
