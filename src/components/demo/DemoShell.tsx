@@ -13,6 +13,12 @@ const featureIcons = {
   accessibility: BookOpenText
 } satisfies Record<FeatureId, LucideIcon>;
 
+const featureLabels = {
+  trust: "Coach",
+  community: "Reaction",
+  accessibility: "Bunny"
+} satisfies Record<FeatureId, string>;
+
 export function DemoShell() {
   const [activeFeatureId, setActiveFeatureId] = useState<FeatureId>("trust");
   const [mode, setMode] = useState<CompareMode>("before");
@@ -21,37 +27,40 @@ export function DemoShell() {
   return (
     <main className="demo-shell">
       <section className="demo-layout">
-        <section className="demo-intro" aria-label="Soluna prototype overview">
-          <h1>Soluna 2.0 Redesign</h1>
-          <p>
-            Interactive case-study prototype for exploring three redesigned moments through a
-            before-after phone demo.
-          </p>
-        </section>
-        <NarrativePanel feature={activeFeature} />
+        <nav className="feature-menu" aria-label="Feature chapters">
+          <section className="demo-intro" aria-label="Soluna prototype overview">
+            <h1>Soluna 2.0 Redesign</h1>
+            <p>
+              Interactive case-study prototype for exploring three redesigned moments through a
+              before-after phone demo.
+            </p>
+          </section>
+          <div className="feature-menu-items">
+            {features.map((feature) => {
+              const FeatureIcon = featureIcons[feature.id];
+
+              return (
+                <button
+                  key={feature.id}
+                  className={feature.id === activeFeatureId ? "is-active" : ""}
+                  aria-label={feature.title}
+                  title={feature.title}
+                  onClick={() => {
+                    setActiveFeatureId(feature.id);
+                    setMode("before");
+                  }}
+                >
+                  <FeatureIcon aria-hidden="true" size={18} strokeWidth={2.35} />
+                  <span>{featureLabels[feature.id]}</span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
+        <NarrativePanel feature={activeFeature} featureLabel={featureLabels[activeFeature.id]} />
         <div className="device-column">
           <PhoneStage feature={activeFeature} mode={mode} />
           <div className="demo-dock" aria-label="Demo controls">
-            <div className="feature-tabs" aria-label="Feature chapters">
-              {features.map((feature) => {
-                const FeatureIcon = featureIcons[feature.id];
-
-                return (
-                  <button
-                    key={feature.id}
-                    className={feature.id === activeFeatureId ? "is-active" : ""}
-                    aria-label={feature.title}
-                    title={feature.title}
-                    onClick={() => {
-                      setActiveFeatureId(feature.id);
-                      setMode("before");
-                    }}
-                  >
-                    <FeatureIcon aria-hidden="true" size={20} strokeWidth={2.25} />
-                  </button>
-                );
-              })}
-            </div>
             <div className="compare-toggle" aria-label="Before and after control">
               <button className={mode === "before" ? "is-active" : ""} onClick={() => setMode("before")}>
                 Before
