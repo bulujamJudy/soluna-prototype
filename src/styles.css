@@ -211,3 +211,196 @@ button {
     max-width: 100%;
   }
 }
+
+.phone-page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  background: #fbfbfd;
+}
+
+.phone-page.with-bottom-nav {
+  grid-template-rows: auto 1fr auto;
+}
+
+.phone-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  min-height: 64px;
+  padding: 18px 12px 8px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(251, 251, 253, 0.96);
+}
+
+.phone-header h2 {
+  margin: 0;
+  overflow: hidden;
+  font-size: 16px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-button {
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  color: var(--text);
+  background: transparent;
+}
+
+.icon-button:disabled {
+  cursor: default;
+  opacity: 0;
+}
+
+.phone-scroll {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px;
+}
+
+.phone-section {
+  margin: 0 0 18px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 8px;
+}
+
+.section-heading h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.phone-card,
+.phone-row {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+}
+
+.phone-card {
+  padding: 14px;
+}
+
+.phone-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+}
+
+.phone-row small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.h-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.chip {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--text);
+  background: var(--surface);
+}
+
+.chip.is-active {
+  border-color: var(--strong);
+  color: white;
+  background: var(--strong);
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 44px;
+  border-radius: 14px;
+  padding: 0 16px;
+  font-weight: 700;
+}
+
+.primary-button {
+  border: 0;
+  color: white;
+  background: var(--strong);
+}
+
+.secondary-button {
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: var(--surface);
+}
+
+.text-input {
+  min-height: 44px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0 12px;
+  background: var(--surface);
+}
+
+.image-slot {
+  display: grid;
+  min-height: 120px;
+  place-items: center;
+  border: 1px dashed #a1a1aa;
+  border-radius: 16px;
+  background: #f8fafc;
+  color: var(--muted);
+  text-align: center;
+}
+
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px 18px;
+  border-top: 1px solid var(--line);
+  background: rgba(251, 251, 253, 0.96);
+}
+
+.bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line);
+  background: rgba(251, 251, 253, 0.98);
+}
+
+.bottom-nav button {
+  display: grid;
+  gap: 3px;
+  justify-items: center;
+  border: 0;
+  padding: 8px 4px 10px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 11px;
+}
+
+.bottom-nav button.is-active {
+  color: var(--strong);
+  font-weight: 700;
+}
