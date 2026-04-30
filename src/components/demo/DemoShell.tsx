@@ -13,31 +13,42 @@ export function DemoShell() {
 
   return (
     <main className="demo-shell">
-      <section className="demo-topbar" aria-label="Soluna prototype overview">
-        <div>
-          <p className="eyebrow">Soluna 2.0 Redesign</p>
-          <h1>Interactive case-study prototype</h1>
-        </div>
-      </section>
       <section className="demo-layout">
-        <div className="narrative-stack">
-          <div className="feature-tabs feature-tabs--stacked" aria-label="Feature chapters">
-            {features.map((feature) => (
-              <button
-                key={feature.id}
-                className={feature.id === activeFeatureId ? "is-active" : ""}
-                onClick={() => {
-                  setActiveFeatureId(feature.id);
-                  setMode("before");
-                }}
-              >
-                {feature.title}
+        <section className="demo-intro" aria-label="Soluna prototype overview">
+          <h1>Soluna 2.0 Redesign</h1>
+          <p>
+            Interactive case-study prototype for exploring three redesigned moments through a
+            before-after phone demo.
+          </p>
+        </section>
+        <NarrativePanel feature={activeFeature} />
+        <div className="device-column">
+          <PhoneStage feature={activeFeature} mode={mode} />
+          <div className="demo-dock" aria-label="Demo controls">
+            <div className="feature-tabs" aria-label="Feature chapters">
+              {features.map((feature) => (
+                <button
+                  key={feature.id}
+                  className={feature.id === activeFeatureId ? "is-active" : ""}
+                  onClick={() => {
+                    setActiveFeatureId(feature.id);
+                    setMode("before");
+                  }}
+                >
+                  {feature.title}
+                </button>
+              ))}
+            </div>
+            <div className="compare-toggle" aria-label="Before and after control">
+              <button className={mode === "before" ? "is-active" : ""} onClick={() => setMode("before")}>
+                Before
               </button>
-            ))}
+              <button className={mode === "after" ? "is-active" : ""} onClick={() => setMode("after")}>
+                After
+              </button>
+            </div>
           </div>
-          <NarrativePanel feature={activeFeature} />
         </div>
-        <PhoneStage feature={activeFeature} mode={mode} onModeChange={setMode} />
       </section>
     </main>
   );

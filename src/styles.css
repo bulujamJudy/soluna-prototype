@@ -45,23 +45,36 @@ button {
 
 .app-root {
   min-height: 100vh;
-  padding: 32px;
 }
 
 .demo-shell {
   min-height: 100vh;
-  padding: 28px;
+  padding: clamp(28px, 6vh, 72px) clamp(22px, 5vw, 72px) 28px;
+  overflow-x: hidden;
 }
 
-.demo-topbar {
-  max-width: 1240px;
-  margin: 0 auto 24px;
-}
-
-.demo-topbar h1,
+.demo-intro h1,
 .narrative-panel h2 {
   margin: 0;
   letter-spacing: 0;
+}
+
+.demo-intro {
+  max-width: 470px;
+}
+
+.demo-intro h1 {
+  max-width: 520px;
+  font-size: clamp(42px, 4vw, 56px);
+  line-height: 1.05;
+}
+
+.demo-intro p:not(.eyebrow) {
+  max-width: 430px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: clamp(18px, 1.5vw, 23px);
+  line-height: 1.55;
 }
 
 .eyebrow {
@@ -75,6 +88,7 @@ button {
 .feature-tabs,
 .compare-toggle {
   display: inline-flex;
+  flex: 0 0 auto;
   gap: 4px;
   padding: 4px;
   border: 1px solid var(--line);
@@ -84,6 +98,7 @@ button {
 
 .feature-tabs button,
 .compare-toggle button {
+  min-height: 44px;
   border: 0;
   border-radius: 999px;
   padding: 10px 14px;
@@ -97,43 +112,44 @@ button {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
-.feature-tabs--stacked {
-  align-self: start;
-  flex-wrap: wrap;
-  border-radius: 18px;
-}
-
-.feature-tabs--stacked button {
-  min-height: 44px;
-}
-
 .demo-layout {
   display: grid;
-  grid-template-columns: minmax(320px, 0.82fr) minmax(490px, 1.18fr);
-  gap: 36px;
+  grid-template-columns: minmax(320px, 470px) minmax(446px, 560px);
+  grid-template-areas:
+    "intro device"
+    "narrative device";
+  grid-template-rows: auto auto;
+  gap: clamp(48px, 8vw, 128px);
+  row-gap: 34px;
   align-items: start;
-  max-width: 1240px;
+  justify-content: center;
+  min-height: calc(100vh - 112px);
+  max-width: 1320px;
   margin: 0 auto;
 }
 
-.narrative-stack {
-  display: grid;
-  align-content: start;
-  gap: 18px;
+.demo-intro {
+  grid-area: intro;
+  align-self: center;
 }
 
 .narrative-panel {
-  padding: 24px;
+  grid-area: narrative;
+  max-width: 470px;
+  padding: 0;
 }
 
 .narrative-panel section {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 10px 0 0;
 }
 
 .narrative-panel h3 {
   margin: 0 0 8px;
   font-size: 18px;
+}
+
+.narrative-lede {
+  margin: 14px 0 0;
 }
 
 .narrative-panel p,
@@ -142,16 +158,26 @@ button {
   line-height: 1.6;
 }
 
-.replacement-note,
-.stage-caption {
+.narrative-panel ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.replacement-note {
   color: var(--muted);
   font-size: 13px;
+}
+
+.device-column {
+  grid-area: device;
+  display: grid;
+  justify-items: center;
+  gap: 0;
 }
 
 .phone-stage {
   display: grid;
   justify-items: center;
-  gap: 16px;
 }
 
 .phone-frame {
@@ -164,6 +190,23 @@ button {
   border-radius: 48px;
   background: #111;
   box-shadow: 0 24px 50px rgba(0, 0, 0, 0.18);
+}
+
+.demo-dock {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: min(760px, calc(100vw - 32px));
+  margin-top: -22px;
+  padding: 8px;
+  gap: 10px;
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 44px rgba(17, 24, 39, 0.14);
+  backdrop-filter: blur(18px);
 }
 
 .phone-sensor {
@@ -218,13 +261,44 @@ button {
   font-size: 12px;
 }
 
-@media (max-width: 860px) {
-  .demo-topbar,
+@media (max-width: 1040px) {
   .demo-layout {
+    grid-template-areas:
+      "intro"
+      "device"
+      "narrative";
     grid-template-columns: 1fr;
+    gap: 36px;
+    min-height: auto;
   }
 
-  .feature-tabs {
+  .demo-intro {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .narrative-panel {
+    justify-self: center;
+    text-align: left;
+  }
+
+  .device-column {
+    gap: 18px;
+  }
+
+  .phone-stage {
+    order: 2;
+  }
+
+  .demo-dock {
+    order: 1;
+    margin-top: 0;
+    flex-wrap: wrap;
+    border-radius: 28px;
+  }
+
+  .feature-tabs,
+  .compare-toggle {
     overflow-x: auto;
     max-width: 100%;
   }
@@ -433,10 +507,27 @@ button {
 
 @media (max-width: 520px) {
   .demo-shell {
-    padding: 16px;
+    padding: 22px 14px;
+  }
+
+  .demo-intro h1 {
+    font-size: 38px;
   }
 
   .narrative-panel {
-    padding: 8px 0;
+    width: 100%;
+  }
+
+  .demo-dock {
+    justify-content: flex-start;
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 24px;
+  }
+
+  .feature-tabs button,
+  .compare-toggle button {
+    padding-inline: 12px;
+    white-space: nowrap;
   }
 }
