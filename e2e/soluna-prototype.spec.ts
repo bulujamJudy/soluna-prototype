@@ -8,6 +8,20 @@ test("desktop shows narrative and phone stage", async ({ page }) => {
   await expect(page.getByRole("button", { name: "After" })).toBeVisible();
 });
 
+test("wide viewport uses iPhone 17 frame dimensions", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Mobile emulation applies viewport scaling; this contract is measured in desktop CSS pixels.");
+  await page.setViewportSize({ width: 1280, height: 1100 });
+  await page.goto("/");
+
+  const frameBox = await page.getByLabel("Interactive phone frame").boundingBox();
+  const screenBox = await page.locator(".phone-screen").boundingBox();
+
+  expect(Math.round(frameBox?.width ?? 0)).toBe(446);
+  expect(Math.round(frameBox?.height ?? 0)).toBe(918);
+  expect(Math.round(screenBox?.width ?? 0)).toBe(402);
+  expect(Math.round(screenBox?.height ?? 0)).toBe(874);
+});
+
 test("before-after toggle opens the after prototype", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText("Replace with recorded before video: Trust friction demo")).toBeVisible();
