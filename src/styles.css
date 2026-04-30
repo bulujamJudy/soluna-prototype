@@ -408,3 +408,27 @@ button {
   color: var(--strong);
   font-weight: 700;
 }
+
+.phone-card,
+.phone-row,
+.primary-button,
+.secondary-button,
+.chip {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 520px) {
+  .demo-shell {
+    padding: 16px;
+  }
+
+  .narrative-panel {
+    padding: 8px 0;
+  }
+
+  .phone-frame {
+    width: min(360px, 94vw);
+    height: 720px;
+    min-height: 620px;
+  }
+}
