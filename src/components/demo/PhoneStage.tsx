@@ -1,4 +1,5 @@
 import type { FeatureChapter } from "../../data/features";
+import { SolunaPrototype } from "../../prototype/SolunaPrototype";
 import { PhoneFrame } from "../phone/PhoneFrame";
 import type { CompareMode } from "./DemoShell";
 import { BeforeVideo } from "./BeforeVideo";
@@ -20,7 +21,15 @@ export function PhoneStage({ feature, mode, onModeChange }: PhoneStageProps) {
           After
         </button>
       </div>
-      <PhoneFrame>{mode === "before" ? <BeforeVideo feature={feature} /> : <div data-testid="after-prototype-slot">After prototype slot</div>}</PhoneFrame>
+      <PhoneFrame>
+        {mode === "before" ? (
+          <BeforeVideo feature={feature} />
+        ) : (
+          <div data-testid="after-prototype-slot" className="after-prototype-slot">
+            <SolunaPrototype startRoute={feature.afterStartRoute} />
+          </div>
+        )}
+      </PhoneFrame>
       <p className="stage-caption">Manual comparison control stays outside the phone frame.</p>
     </section>
   );

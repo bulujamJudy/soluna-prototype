@@ -167,6 +167,10 @@ button {
   background: var(--surface);
 }
 
+.after-prototype-slot {
+  height: 100%;
+}
+
 .before-video,
 .video-box {
   display: grid;
