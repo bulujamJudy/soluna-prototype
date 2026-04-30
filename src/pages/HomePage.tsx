@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, Bell, Send, Sparkles } from "lucide-react";
 import { blogCards, practiceCards } from "../data/mockContent";
 import type { PrototypeRoute, RouteName } from "../prototype/routeTypes";
 import { BottomNav } from "../components/phone/BottomNav";
@@ -15,10 +15,10 @@ type PageNav = {
 };
 
 const bunnyDialogues = [
-  "I can stay with this for a moment. What feels loudest right now?",
-  "That makes sense to carry. What would be easiest to name next?",
-  "You do not need a perfect answer yet. What would help by tonight?",
-  "I am hearing a lot at once. What part feels most important to sort first?"
+  "It's 3 a.m. now, I'm here with you.",
+  "How are you feeling right now? I can listen to you.",
+  "Your coach session is tomorrow. Want help naming one thing to bring?",
+  "There is a new poll if sharing feels easier than writing."
 ];
 
 function openPlaceholder(nav: PageNav, title: string) {
@@ -44,44 +44,35 @@ export function HomePage({ nav }: { nav: PageNav }) {
   return (
     <PhonePage withBottomNav>
       <PhoneHeader
-        title="Home"
+        title="Soluna 2.0"
         left="safety"
         onSafety={() => nav.push({ name: "safety" })}
         onNotifications={() => openPlaceholder(nav, "Notifications")}
       />
       <PhoneScroll>
-        <Section
-          title="Today"
-          action={
-            <SecondaryButton type="button" onClick={() => nav.push({ name: "library" })}>
-              See all
-            </SecondaryButton>
-          }
-        >
+        <Section>
           <Card>
-            <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
-              <div>
-              <p className="eyebrow">Focus widget</p>
-              <h3>Gentle check-in</h3>
-              <p>Bunny can help sort the first thought, a useful resource, or a calmer next step.</p>
-              </div>
-              <Sparkles size={18} />
+            <div className="inline-between">
+              <span>
+                <p className="eyebrow">Widget suggestion</p>
+                <strong>Add a Soluna widget</strong>
+                <small>Keep Bunny, safety, and upcoming coach reminders one tap away.</small>
+              </span>
+              <Bell size={18} />
             </div>
           </Card>
         </Section>
 
-        <Section title="Space Bunny">
+        <Section title="Space Bunny Buddy">
           <Card onClick={cycleBunnyDialogue}>
-            <ImageSlot label="Space Bunny image placeholder" />
-            <div style={{ marginTop: 12 }}>
-              <p className="eyebrow">Tap Bunny</p>
-              <h3>Reflective prompt</h3>
-              <p>{bunnyDialogues[bunnyLine]}</p>
+            <div className="bunny-stage">
+              <div className="bunny-bubble">{bunnyDialogues[bunnyLine]}</div>
+              <ImageSlot label="Replace with actual image: Space Bunny illustration" />
             </div>
           </Card>
 
           <form
-            style={{ display: "grid", gap: 10, marginTop: 10 }}
+            className="bunny-input-row"
             onSubmit={(event) => {
               event.preventDefault();
               sendToBunny();
@@ -90,44 +81,64 @@ export function HomePage({ nav }: { nav: PageNav }) {
             <TextInput
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
-              placeholder="Share your thought..."
+              placeholder="Type in to share your thought with Space Bunny"
               aria-label="Share your thought"
             />
             <PrimaryButton type="submit" aria-label="Send to bunny" disabled={!draft.trim()}>
-              Send to bunny
+              <Send size={16} />
+              <span>Send</span>
             </PrimaryButton>
           </form>
         </Section>
 
-        <Section title="Practice">
-          <div style={{ display: "grid", gap: 10 }}>
+        <Section title="Mental health practice">
+          <div className="h-scroll card-rail">
             {practiceCards.map((practice) => (
               <Card key={practice} onClick={() => openPlaceholder(nav, `${practice} practice`)}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+                <div className="practice-card-content">
+                  <Sparkles size={18} />
                   <strong>{practice}</strong>
                   <ArrowRight size={16} />
                 </div>
-                <p>Open a low-effort practice for this moment.</p>
               </Card>
             ))}
           </div>
         </Section>
 
-        <Section title="Read next">
-          <div style={{ display: "grid", gap: 10 }}>
-            {blogCards.map((article) => (
+        <Section
+          title="Blog library"
+          action={
+            <SecondaryButton type="button" onClick={() => nav.push({ name: "library" })}>
+              See all
+            </SecondaryButton>
+          }
+        >
+          <Card>
+            <div className="inline-between">
+              <span>
+                <p className="eyebrow">Topics of the week</p>
+                <strong>{blogCards.filter((article) => article.read).length}/{blogCards.length} read</strong>
+              </span>
+              <Sparkles size={18} />
+            </div>
+            <div className="mini-progress" aria-hidden="true">
+              <span style={{ width: `${(blogCards.filter((article) => article.read).length / blogCards.length) * 100}%` }} />
+            </div>
+          </Card>
+          <div className="h-scroll card-rail">
+            {blogCards
+              .slice()
+              .sort((a, b) => Number(a.read) - Number(b.read))
+              .map((article) => (
               <Card key={article.id} onClick={() => openPlaceholder(nav, article.title)}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                  <span>
-                    <strong>{article.title}</strong>
-                    <small>
-                      {article.type} · {article.readTime}
-                    </small>
-                  </span>
-                  {article.read ? <span className="pill">Read</span> : <MessageCircle size={16} />}
+                <div className="article-card-content">
+                  <ImageSlot label={`Replace with actual image: ${article.title} article illustration`} />
+                  <strong>{article.title}</strong>
+                  <small>{article.type} · {article.readTime}</small>
+                  {article.read ? <span className="chip">Read</span> : null}
                 </div>
               </Card>
-            ))}
+              ))}
           </div>
         </Section>
       </PhoneScroll>

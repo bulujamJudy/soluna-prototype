@@ -5,14 +5,25 @@ export function NarrativePanel({ feature }: { feature: FeatureChapter }) {
     <aside className="narrative-panel">
       <p className="eyebrow">{feature.eyebrow}</p>
       <h2>{feature.title}</h2>
-      <p className="narrative-lede">{feature.problem}</p>
       <section>
-        <h3>Key redesign moves</h3>
+        <h3>Problem</h3>
+        <p>{feature.problem}</p>
+      </section>
+      <section>
+        <h3>Insight</h3>
+        <p>{feature.insight}</p>
+      </section>
+      <section>
+        <h3>Redesign Response</h3>
         <ul>
-          {feature.redesign.slice(0, 3).map((item) => (
+          {feature.redesign.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
+      </section>
+      <section>
+        <h3>Prototype Path</h3>
+        <p>{feature.prototypePath.join(" -> ")}</p>
       </section>
     </aside>
   );

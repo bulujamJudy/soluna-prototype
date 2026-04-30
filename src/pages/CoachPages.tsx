@@ -48,20 +48,32 @@ const coachHistory = [
 
 const faqs: FAQItem[] = [
   {
-    question: "What happens in a coaching session?",
-    answer: "You bring one thing that feels heavy, and the coach helps you sort it into a next step you can actually use."
+    question: "What would a coaching session look like?",
+    answer: "A coach starts by asking what has been on your mind, then helps you sort one useful next step. No perfect agenda required."
   },
   {
-    question: "How is coaching different from therapy?",
-    answer: "Coaching stays practical and short-term. It focuses on support, habits, and planning rather than diagnosis or treatment."
+    question: "How do I book a session?",
+    answer: "Browse coaches, choose a time that works, pick video or text, then review the details before confirming."
   },
   {
-    question: "Can I switch coaches later?",
-    answer: "Yes. You can try someone new if your schedule changes or you want a different style of support."
+    question: "Is my conversation private?",
+    answer: "Your data stays with Soluna. The service does not sell information or share it with third parties."
   },
   {
-    question: "What if I miss my session?",
-    answer: "You can reschedule from My Sessions, and the app will keep the booking details in one place."
+    question: "What is Drop-in Chat?",
+    answer: "Drop-in Chat lets you join a short waiting room and connect with the next available coach without an appointment."
+  },
+  {
+    question: "Can I cancel or reschedule?",
+    answer: "Yes. You can manage upcoming sessions from My Sessions."
+  },
+  {
+    question: "How do I choose the right coach?",
+    answer: "Use focus areas, languages, pronouns, and availability to find someone who feels like a good fit. You can switch later."
+  },
+  {
+    question: "What are the office hours?",
+    answer: "Coaching is available from 9:00 AM to 10:00 PM. Bunny remains available after hours for reflection and resource guidance."
   }
 ];
 
@@ -313,20 +325,36 @@ export function CoachListPage({ nav }: PageProps) {
 
 export function CoachingQAPage({ nav }: PageProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const trustSections = [
+    {
+      title: "Who pays for this?",
+      body:
+        "This service is entirely free and funded by the state as a public mental health initiative for Californians aged 13-25. You do not need to provide insurance information or payment information. No ads, no data harvesting."
+    },
+    {
+      title: "Who runs it?",
+      body: "Soluna is operated by California Mental Health Services, a public health agency. This is a government-backed service."
+    },
+    {
+      title: "Your privacy",
+      body: "Your data stays with us. We do not sell information or share it with third parties."
+    }
+  ];
 
   return (
     <PageFrame title="About Coaching" nav={nav} left="back">
-      <Section title="Basics">
+      <Section>
+        <p className="subtle-copy">Common questions about scheduling and coaching sessions</p>
+      </Section>
+
+      <Section title="Trust signals">
         <div style={{ display: "grid", gap: 10 }}>
-          <Card>
-            <MetaLine icon={ShieldCheck}>Short, private, and focused on what helps next.</MetaLine>
-          </Card>
-          <Card>
-            <MetaLine icon={Users}>You can choose a coach or use the drop-in room first.</MetaLine>
-          </Card>
-          <Card>
-            <MetaLine icon={CalendarDays}>Sessions are easy to reschedule from My Sessions.</MetaLine>
-          </Card>
+          {trustSections.map((section) => (
+            <div key={section.title} className="info-block">
+              <strong>{section.title}</strong>
+              <p>{section.body}</p>
+            </div>
+          ))}
         </div>
       </Section>
 

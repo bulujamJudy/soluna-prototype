@@ -1,4 +1,4 @@
-import { Bell, Bookmark, ChevronDown, ChevronUp, Heart, MessageCircle, Pin, Plus, Search, ShieldAlert } from "lucide-react";
+import { Bookmark, ChevronDown, ChevronRight, ChevronUp, Heart, HeartHandshake, MessageCircle, Pin, Plus, Search, ShieldAlert, Smile, Sun } from "lucide-react";
 import { useMemo, useState } from "react";
 import { BottomNav } from "../components/phone/BottomNav";
 import { Chip, PhonePage, PhoneScroll, PrimaryButton, SecondaryButton, Section, TextInput } from "../components/phone/UiPrimitives";
@@ -99,29 +99,17 @@ export function CommunityPage({ nav }: CommunityPageProps) {
       <PhoneScroll>
         <Section>
           <div className="phone-card" style={{ display: "grid", gap: 10 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <Bell size={18} />
-              <div style={{ minWidth: 0 }}>
-                <strong>Notifications are quiet</strong>
-                <p style={{ margin: "4px 0 0", color: "var(--muted)", lineHeight: 1.4 }}>
-                  You do not have any new community alerts right now.
-                </p>
-              </div>
+            <div className="poll-banner-header">
+              <span className="poll-label">
+                <ShieldAlert size={18} />
+                <span>
+                  <strong>Poll</strong>
+                  <small>Ongoing: ending in 3 days</small>
+                </span>
+              </span>
+              <span className="poll-status">You haven't voted yet</span>
             </div>
-          </div>
-        </Section>
-
-        <Section>
-          <div className="phone-card" style={{ display: "grid", gap: 10 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <ShieldAlert size={18} />
-              <div style={{ minWidth: 0 }}>
-                <strong>Weekly community pulse</strong>
-                <p style={{ margin: "4px 0 0", color: "var(--muted)", lineHeight: 1.4 }}>
-                  Join the poll and see how others are feeling this week.
-                </p>
-              </div>
-            </div>
+            <h3 style={{ margin: 0 }}>{poll.question}</h3>
             <div style={{ display: "flex", gap: 10, alignItems: "center", justifyContent: "space-between" }}>
               <span style={{ color: "var(--muted)" }}>{poll.responses} responses so far</span>
               <SecondaryButton onClick={() => nav.push({ name: "poll" })}>tap to vote</SecondaryButton>
@@ -130,23 +118,27 @@ export function CommunityPage({ nav }: CommunityPageProps) {
         </Section>
 
         <Section>
-          <div className="phone-card" style={{ display: "grid", gap: 10 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div className="search-post-row">
+            <label className="search-field">
               <Search size={16} />
-              <strong>Search</strong>
-            </div>
             <TextInput value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search posts, topics, or people" />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-              <span style={{ color: "var(--muted)" }}>Start a new conversation</span>
-              <PrimaryButton onClick={() => nav.push({ name: "placeholder", title: "Create Post" })}>
-                <Plus size={16} />
-                <span style={{ marginLeft: 6 }}>Post</span>
-              </PrimaryButton>
-            </div>
+            </label>
+            <PrimaryButton onClick={() => nav.push({ name: "placeholder", title: "Create Post" })}>
+              <Plus size={16} />
+              <span>Post</span>
+            </PrimaryButton>
           </div>
         </Section>
 
-        <Section title="Topics">
+        <Section
+          title="Suggested topics"
+          action={
+            <SecondaryButton type="button" onClick={() => nav.push({ name: "placeholder", title: "My Activity" })}>
+              My activity
+              <ChevronRight size={14} />
+            </SecondaryButton>
+          }
+        >
           <div className="h-scroll" aria-label="Community topics">
             {topicList.map((topic) => (
               <Chip key={topic} active={topic === activeTopic} onClick={() => setActiveTopic(topic)}>
@@ -156,16 +148,7 @@ export function CommunityPage({ nav }: CommunityPageProps) {
           </div>
         </Section>
 
-        <Section>
-          <div className="phone-card" style={{ display: "grid", gap: 8 }}>
-            <strong>My activity</strong>
-            <p style={{ margin: 0, color: "var(--muted)", lineHeight: 1.45 }}>
-              Your reactions, bookmarks, and recent visits will appear here.
-            </p>
-          </div>
-        </Section>
-
-        <Section title="Pinned">
+        <Section title="Pinned post">
           <div className="phone-card" style={{ display: "grid", gap: pinnedOpen ? 12 : 0 }}>
             <button
               type="button"
@@ -181,14 +164,14 @@ export function CommunityPage({ nav }: CommunityPageProps) {
                 background: "transparent",
                 color: "inherit",
                 textAlign: "left"
-              }}
+	              }}
             >
               <span style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
                 <Pin size={16} />
                 <span>
-                  <strong>Pinned community note</strong>
+                  <strong>Welcome to Forums!</strong>
                   <small style={{ display: "block", marginTop: 4, color: "var(--muted)" }}>
-                    Keep things kind, short, and safe enough to skim.
+                    ForumsTeam
                   </small>
                 </span>
               </span>
@@ -196,7 +179,7 @@ export function CommunityPage({ nav }: CommunityPageProps) {
             </button>
             {pinnedOpen ? (
               <div style={{ color: "var(--muted)", lineHeight: 1.45 }}>
-                This mock pinned space stands in for the community norms, a featured post, or a moderation message.
+                Keep things kind, short, and safe enough to skim. You can respond with reactions when writing a full comment feels too heavy.
               </div>
             ) : null}
           </div>
@@ -221,32 +204,39 @@ export function CommunityPage({ nav }: CommunityPageProps) {
                         openPost(post.id);
                       }
                     }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
-                      <div style={{ minWidth: 0 }}>
+	                  >
+	                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
+                      <div style={{ display: "flex", gap: 10, minWidth: 0 }}>
+                        <div className="avatar-dot" aria-hidden="true">{post.author.slice(0, 1)}</div>
+                        <div style={{ minWidth: 0 }}>
                         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
                           <strong>{post.author}</strong>
                           <span style={{ color: "var(--muted)" }}>{post.timestamp}</span>
                         </div>
                         <h3 style={{ margin: "6px 0 0" }}>{post.title}</h3>
+                        </div>
                       </div>
-                      <span className="chip is-active" style={{ pointerEvents: "none" }}>
-                        {post.topic}
-                      </span>
+                      <Bookmark size={18} fill={state.bookmarked ? "currentColor" : "none"} />
                     </div>
                     <p style={{ margin: 0, color: "var(--muted)", lineHeight: 1.45 }}>{post.sentences[0]}</p>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 12, color: "var(--muted)" }}>
-                        <span>{post.comments} comments</span>
-                        <span>{state.reactionCount} reactions</span>
+                        <span><MessageCircle size={14} /> {post.comments}</span>
                       </div>
-                      <div style={{ display: "flex", gap: 8 }}>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                        <div className="reaction-stack" aria-label={`${state.reactionCount} reactions`}>
+                          <Heart size={13} />
+                          <HeartHandshake size={13} />
+                          <Smile size={13} />
+                          <Sun size={13} />
+                          <span>{state.reactionCount}</span>
+                        </div>
                         <SecondaryButton
                           onClick={(event) => {
                             event.stopPropagation();
                             toggleReaction(post.id);
                           }}
-                          aria-pressed={state.reacted}
+	                          aria-pressed={state.reacted}
                         >
                           <Heart size={16} fill={state.reacted ? "currentColor" : "none"} />
                           <span style={{ marginLeft: 6 }}>{state.reacted ? "Reacted" : "React"}</span>

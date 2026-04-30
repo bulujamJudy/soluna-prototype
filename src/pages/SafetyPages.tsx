@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { MapPinned, PhoneCall, ShieldAlert } from "lucide-react";
+import { ExternalLink, MapPinned, PhoneCall, Search, ShieldAlert } from "lucide-react";
 import { crisisResources, localServiceCategories, localServices } from "../data/mockContent";
 import type { PrototypeRoute, RouteName } from "../prototype/routeTypes";
 import { PhoneHeader } from "../components/phone/PhoneHeader";
-import { Card, Chip, PhonePage, PhoneScroll, PrimaryButton, Row, Section, SecondaryButton } from "../components/phone/UiPrimitives";
+import { Card, Chip, PhonePage, PhoneScroll, PrimaryButton, Row, Section, SecondaryButton, TextInput } from "../components/phone/UiPrimitives";
 
 type PageNav = {
   push(route: PrototypeRoute): void;
@@ -140,6 +140,8 @@ const markerPositions = [
 export function LocalServicesPage({ nav }: { nav: PageNav }) {
   const [activeCategory, setActiveCategory] = useState(localServiceCategories[0]);
   const [selectedServiceId, setSelectedServiceId] = useState(localServices[0].id);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchedFor, setSearchedFor] = useState<string | null>(null);
 
   const activeSubcategories = serviceSubcategories[activeCategory] ?? ["Nearby", "Walk-in", "Open today"];
   const selectedService = localServices.find((service) => service.id === selectedServiceId) ?? localServices[0];
@@ -148,8 +150,30 @@ export function LocalServicesPage({ nav }: { nav: PageNav }) {
     <PhonePage>
       <PhoneHeader title="Local Services" left="back" right="none" onBack={nav.back} />
       <PhoneScroll>
-        <Section title="Filter">
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <Section title="Search">
+          <form
+            className="local-search"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setSearchedFor(searchTerm.trim() || "nearby services");
+            }}
+          >
+            <label className="search-field">
+              <Search size={16} />
+              <TextInput
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder="Search for services or by ZIP code"
+                aria-label="Search for services or by ZIP code"
+              />
+            </label>
+            <PrimaryButton type="submit">Search</PrimaryButton>
+          </form>
+          {searchedFor ? <p className="subtle-copy">Showing support near: {searchedFor}</p> : null}
+        </Section>
+
+        <Section title="Categories">
+          <div className="h-scroll service-category-rail">
             {localServiceCategories.map((category) => (
               <Chip key={category} active={category === activeCategory} onClick={() => setActiveCategory(category)}>
                 {category}
@@ -230,6 +254,27 @@ export function LocalServicesPage({ nav }: { nav: PageNav }) {
               </SecondaryButton>
             </div>
             <p style={{ marginBottom: 0 }}>{selectedService.address}</p>
+          </Card>
+        </Section>
+
+        <Section title="California Resources and Support">
+          <Card>
+            <div className="inline-between">
+              <span>
+                <strong>Care coordinator</strong>
+                <small>Call for help finding free or reduced-cost services.</small>
+              </span>
+              <ExternalLink size={18} />
+            </div>
+            <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
+              <SecondaryButton type="button" onClick={() => openPlaceholder(nav, "California Resources and Support")}>
+                Open in browser
+              </SecondaryButton>
+              <PrimaryButton type="button" onClick={() => openPlaceholder(nav, "Call care coordinator")}>
+                <PhoneCall size={16} />
+                <span>Call</span>
+              </PrimaryButton>
+            </div>
           </Card>
         </Section>
       </PhoneScroll>
