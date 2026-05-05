@@ -90,26 +90,17 @@ function route(route: RouteName): PrototypeRoute {
 
 function CoachAvatar({ name }: { name: string }) {
   return (
-    <div
-      aria-hidden="true"
+    <img
+      src="/coach.png" // <-- Make sure this matches your image filename!
+      alt={`${name} avatar`}
       style={{
         width: 48,
         height: 48,
         borderRadius: "50%",
-        background: "linear-gradient(180deg, #f3f4f6, #e5e7eb)",
-        display: "grid",
-        placeItems: "center",
-        color: "#6b7280",
-        fontSize: 12,
-        fontWeight: 700
+        objectFit: "cover",
+        backgroundColor: "#f3f4f6" // fallback background while loading
       }}
-    >
-      {name
-        .split(" ")
-        .map((part) => part[0])
-        .slice(0, 2)
-        .join("")}
-    </div>
+    />
   );
 }
 
@@ -407,11 +398,6 @@ export function CoachingQAPage({ nav }: PageProps) {
 export function CoachProfilePage({ nav }: PageProps) {
   const [bookmarked, setBookmarked] = useState(false);
   const coach = coaches[0];
-  const coachInitials = coach.name
-    .split(" ")
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join("");
 
   return (
     <PageFrame title="Coach Profile" nav={nav} left="back">
@@ -420,7 +406,12 @@ export function CoachProfilePage({ nav }: PageProps) {
         <SecondaryButton onClick={() => setBookmarked((current) => !current)} aria-label={bookmarked ? "Remove bookmark" : "Bookmark coach"} className="coach-profile-bookmark">
           {bookmarked ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
         </SecondaryButton>
-        <div className="coach-profile-avatar" aria-hidden="true">{coachInitials}</div>
+        <img 
+          src="/coach.png" 
+          alt={`${coach.name} avatar`} 
+          className="coach-profile-avatar" 
+          style={{ objectFit: "cover" }} 
+        />
         <h3>{coach.name}</h3>
         <p>{coach.pronouns}</p>
         <div className="coach-profile-meta">
