@@ -90,20 +90,7 @@ function route(route: RouteName): PrototypeRoute {
 
 function CoachAvatar({ name }: { name: string }) {
   return (
-    <div
-      aria-hidden="true"
-      style={{
-        width: 48,
-        height: 48,
-        borderRadius: "50%",
-        background: "linear-gradient(180deg, #f3f4f6, #e5e7eb)",
-        display: "grid",
-        placeItems: "center",
-        color: "#6b7280",
-        fontSize: 12,
-        fontWeight: 700
-      }}
-    >
+    <div aria-hidden="true" className="coach-avatar">
       {name
         .split(" ")
         .map((part) => part[0])
@@ -484,7 +471,7 @@ export function SchedulePage({ nav }: PageProps) {
   return (
     <PageFrame title="Schedule" nav={nav} left="back">
       <Section>
-        <Card>
+        <Card className="schedule-card">
           <div style={{ display: "grid", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
               <strong>May 2026</strong>
@@ -505,17 +492,10 @@ export function SchedulePage({ nav }: PageProps) {
                   return (
                     <button
                       key={`${weekIndex}-${dayIndex}-${day || "blank"}`}
+                      className={active ? "schedule-day is-selected" : disabled ? "schedule-day is-disabled" : "schedule-day"}
                       onClick={() => day && !disabled && setSelectedDay(day)}
                       disabled={disabled}
-                      style={{
-                        minHeight: 38,
-                        borderRadius: 12,
-                        border: "1px solid var(--line)",
-                        background: active ? "var(--strong)" : "var(--surface)",
-                        color: active ? "#fff" : day ? "var(--text)" : "transparent",
-                        opacity: disabled ? 0.35 : 1,
-                        cursor: disabled ? "not-allowed" : "pointer"
-                      }}
+                      style={{ color: day ? undefined : "transparent" }}
                     >
                       {day}
                     </button>
@@ -565,13 +545,9 @@ export function SessionFormatPage({ nav }: PageProps) {
         <div style={{ display: "grid", gap: 10 }}>
           <button
             aria-label="Video"
-            className={format === "video" ? "phone-card" : "phone-card"}
+            className={format === "video" ? "phone-card session-format-card is-selected" : "phone-card session-format-card"}
             onClick={() => setFormat("video")}
-            style={{
-              textAlign: "left",
-              borderColor: format === "video" ? "var(--strong)" : "var(--line)",
-              background: format === "video" ? "#f8fafc" : "var(--surface)"
-            }}
+            style={{ textAlign: "left" }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start" }}>
               <div style={{ display: "grid", gap: 6 }}>
@@ -584,13 +560,9 @@ export function SessionFormatPage({ nav }: PageProps) {
 
           <button
             aria-label="Text"
-            className={format === "text" ? "phone-card" : "phone-card"}
+            className={format === "text" ? "phone-card session-format-card is-selected" : "phone-card session-format-card"}
             onClick={() => setFormat("text")}
-            style={{
-              textAlign: "left",
-              borderColor: format === "text" ? "var(--strong)" : "var(--line)",
-              background: format === "text" ? "#f8fafc" : "var(--surface)"
-            }}
+            style={{ textAlign: "left" }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start" }}>
               <div style={{ display: "grid", gap: 6 }}>

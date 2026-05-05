@@ -15,7 +15,7 @@
   --line: rgba(60, 60, 67, 0.16);
   --line-strong: rgba(60, 60, 67, 0.29);
   --strong: #1d1d1f;
-  --accent: #007aff;
+  --accent: #ffd166;
   --radius: 18px;
   --ios-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 10px 26px rgba(0, 0, 0, 0.06);
   --ios-inner-line: inset 0 0 0 1px rgba(60, 60, 67, 0.12);
@@ -786,7 +786,7 @@ textarea:focus-visible {
   height: 116px;
   place-items: center;
   border-radius: 999px;
-  background: #cbd5e8;
+  background: rgba(255, 255, 255, 0.18);
   color: #fff;
   font-size: 34px;
   font-weight: 800;
@@ -868,7 +868,7 @@ textarea:focus-visible {
 
 .coach-next-available {
   margin: 6px 0 0;
-  color: #4f7cff;
+  color: var(--gold);
   font-size: 15px;
   font-weight: 500;
 }
@@ -904,10 +904,10 @@ textarea:focus-visible {
 .coach-session-callout {
   display: grid;
   gap: 12px;
-  border: 1px solid rgba(79, 124, 255, 0.28);
+  border: 1px solid rgba(255, 209, 102, 0.28);
   border-radius: 14px;
   padding: 16px;
-  background: rgba(79, 124, 255, 0.08);
+  background: rgba(255, 209, 102, 0.08);
 }
 
 .booking-review-card {
@@ -1307,7 +1307,7 @@ textarea:focus-visible {
   height: 34px;
   place-items: center;
   border-radius: 50%;
-  background: #e9e9ee;
+  background: rgba(255, 255, 255, 0.14);
   color: var(--muted);
   font-weight: 800;
 }
@@ -1471,6 +1471,402 @@ textarea:focus-visible {
 .secondary-button,
 .chip {
   overflow-wrap: anywhere;
+}
+
+.phone-page {
+  --text: #fbf7ff;
+  --text-strong: #ffffff;
+  --muted: rgba(243, 231, 255, 0.72);
+  --muted-strong: rgba(255, 255, 255, 0.84);
+  --line: rgba(255, 255, 255, 0.18);
+  --line-strong: rgba(255, 255, 255, 0.32);
+  --surface: rgba(255, 255, 255, 0.13);
+  --surface-muted: rgba(255, 255, 255, 0.08);
+  --surface-raised: rgba(255, 255, 255, 0.15);
+  --surface-strong: rgba(255, 255, 255, 0.2);
+  --strong: #ffd166;
+  --strong-ink: #1b0b3b;
+  --dark: #12091f;
+  --dark-glass: rgba(18, 9, 31, 0.72);
+  --pink: #ff6ec7;
+  --violet: #7c3cff;
+  --gold: #ffd166;
+  --accent: #ffd166;
+  --radius-card: 22px;
+  --glass-blur: blur(22px) saturate(1.22);
+  position: relative;
+  overflow: hidden;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 82% 10%, rgba(255, 209, 102, 0.26), transparent 30%),
+    radial-gradient(circle at 13% 18%, rgba(255, 110, 199, 0.36), transparent 34%),
+    radial-gradient(circle at 72% 74%, rgba(124, 60, 255, 0.42), transparent 36%),
+    linear-gradient(145deg, #12091f 0%, #241045 44%, #4d148c 100%);
+}
+
+.phone-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 44% 34%, rgba(255, 255, 255, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 32%);
+}
+
+.phone-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.phone-scroll {
+  background: transparent;
+}
+
+.phone-header {
+  color: var(--text-strong);
+  background: rgba(18, 9, 31, 0.48);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px) saturate(1.18);
+}
+
+.phone-header h2,
+.section-heading h3,
+.topics-week-title,
+.coach-booking-hero h3,
+.coach-profile-hero h3,
+.coach-profile-label,
+.coach-profile-credentials h3 {
+  color: var(--text-strong);
+}
+
+.icon-button {
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.icon-button:active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.phone-card,
+.phone-row,
+.coach-dropin-row,
+.coach-line-card,
+.coach-history-row,
+.coach-list-card,
+.coach-list-row,
+.info-block,
+.coach-booking-hero {
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 48px rgba(10, 4, 24, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: var(--glass-blur);
+}
+
+.phone-card small,
+.phone-row small,
+.coach-row-copy small,
+.coach-status-line,
+.coach-booking-hero p,
+.coach-booking-hero small,
+.subtle-copy,
+.eyebrow,
+.coach-profile-hero p,
+.coach-profile-meta,
+.coach-next-available,
+.coach-profile-credentials ul,
+.info-block p {
+  color: var(--muted);
+}
+
+.primary-button {
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  color: var(--strong-ink);
+  background: rgba(255, 209, 102, 0.92);
+  box-shadow: 0 14px 32px rgba(255, 110, 199, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
+.primary-button:disabled {
+  color: rgba(27, 11, 59, 0.58);
+  background: rgba(255, 209, 102, 0.38);
+  cursor: not-allowed;
+}
+
+.secondary-button,
+.chip {
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: var(--glass-blur);
+}
+
+.chip.is-active {
+  color: var(--strong-ink);
+  background: rgba(255, 209, 102, 0.9);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+.text-input,
+.search-field {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  backdrop-filter: var(--glass-blur);
+}
+
+.text-input::placeholder,
+textarea::placeholder {
+  color: rgba(243, 231, 255, 0.62);
+}
+
+.sticky-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(18, 9, 31, 0.62);
+  backdrop-filter: blur(28px) saturate(1.24);
+}
+
+.bottom-nav {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(18, 9, 31, 0.66);
+  backdrop-filter: blur(28px) saturate(1.24);
+}
+
+.bottom-nav button {
+  color: rgba(243, 231, 255, 0.62);
+}
+
+.bottom-nav button.is-active {
+  color: var(--gold);
+}
+
+.widget-card,
+.weekly-progress-card,
+.article-card,
+.exercise-rail .phone-card,
+.card-rail .phone-card {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+.widget-card .secondary-button {
+  width: 100%;
+}
+
+.bunny-card {
+  color: var(--text);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.bunny-stage,
+.image-slot {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.bunny-bubble {
+  color: var(--text);
+  background: rgba(18, 9, 31, 0.72);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 14px 36px rgba(10, 4, 24, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  backdrop-filter: var(--glass-blur);
+}
+
+.mini-progress {
+  height: 18px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.mini-progress span {
+  background: var(--gold);
+}
+
+.mini-progress strong {
+  color: var(--strong-ink);
+}
+
+.mini-progress strong.is-on-progress-fill {
+  color: #fff;
+}
+
+.article-status-dot {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.article-status-dot.is-finished {
+  color: var(--strong-ink);
+  background: var(--gold);
+}
+
+.article-card-controls svg {
+  color: var(--text);
+  background: rgba(18, 9, 31, 0.58);
+}
+
+.article-card-copy {
+  color: var(--text-strong);
+}
+
+.coach-icon-tile,
+.coach-avatar,
+.avatar-dot {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.coach-icon-tile {
+  border-radius: 14px;
+}
+
+.coach-icon-tile.is-strong,
+.coach-tag.is-strong {
+  color: var(--strong-ink);
+  background: rgba(255, 209, 102, 0.92);
+}
+
+.coach-tag {
+  color: var(--muted);
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.coach-list-row + .coach-list-row {
+  border-top-color: var(--line);
+}
+
+.coach-window {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.coach-window-main::after {
+  background: var(--gold);
+}
+
+.coach-profile-avatar {
+  width: 116px;
+  height: 116px;
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.coach-profile-meta span + span::before {
+  color: rgba(243, 231, 255, 0.5);
+}
+
+.coach-bio-card,
+.coach-session-callout {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+.coach-specialty-chip {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.coach-specialty-chip.is-matched {
+  color: var(--strong-ink);
+  background: rgba(255, 209, 102, 0.9);
+}
+
+.schedule-card {
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+.schedule-day {
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.schedule-day.is-selected {
+  color: var(--strong-ink);
+  background: rgba(255, 209, 102, 0.92);
+}
+
+.schedule-day.is-disabled {
+  opacity: 0.34;
+  cursor: not-allowed;
+}
+
+.session-format-card.is-selected {
+  color: var(--strong-ink);
+  background: rgba(255, 209, 102, 0.9);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+.booking-review-card,
+.booking-expect-card {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+.booking-expect-list li {
+  color: var(--text);
+}
+
+.booking-expect-list li::before {
+  border-color: var(--gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.booking-expect-list li:not(:last-child)::after {
+  background: rgba(255, 209, 102, 0.72);
+}
+
+.booking-success-hero {
+  min-height: 260px;
+}
+
+.booking-success-message {
+  color: var(--text-strong);
+  background: transparent;
+  border: 0;
+  text-align: center;
+}
+
+.booking-success-message svg {
+  color: var(--gold);
+}
+
+.ghost-link-button {
+  color: var(--muted);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.poll-status {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--line);
 }
 
 @media (max-width: 520px) {

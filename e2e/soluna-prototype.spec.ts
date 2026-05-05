@@ -16,8 +16,8 @@ test("wide viewport uses iPhone 17 frame dimensions", async ({ page, isMobile })
   const frameBox = await page.getByLabel("Interactive phone frame").boundingBox();
   const screenBox = await page.locator(".phone-screen").boundingBox();
 
-  expect(Math.round(frameBox?.width ?? 0)).toBe(446);
-  expect(Math.round(frameBox?.height ?? 0)).toBe(918);
+  expect(Math.round(frameBox?.width ?? 0)).toBe(420);
+  expect(Math.round(frameBox?.height ?? 0)).toBe(892);
   expect(Math.round(screenBox?.width ?? 0)).toBe(402);
   expect(Math.round(screenBox?.height ?? 0)).toBe(874);
 });
@@ -26,7 +26,9 @@ test("before-after toggle opens the after prototype", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText("Replace with recorded before video: Trust friction demo")).toBeVisible();
   await page.getByRole("button", { name: "After" }).click();
-  await expect(page.getByRole("heading", { name: "Coach", exact: true })).toBeVisible();
+  await expect(
+    page.getByTestId("after-prototype-slot").getByRole("heading", { name: "Coach", exact: true })
+  ).toBeVisible();
 });
 
 test("feature tabs reset before video labels", async ({ page }) => {
@@ -43,5 +45,22 @@ test("mobile layout keeps controls usable", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Trust" })).toBeVisible();
   await expect(page.getByRole("button", { name: "After" })).toBeVisible();
   await page.getByRole("button", { name: "After" }).click();
-  await expect(page.getByRole("heading", { name: "Coach", exact: true })).toBeVisible();
+  await expect(
+    page.getByTestId("after-prototype-slot").getByRole("heading", { name: "Coach", exact: true })
+  ).toBeVisible();
+});
+
+test("after phone keeps demo shell while showing high-fi app styling", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "After" }).click();
+  await expect(page.getByText("Interactive case-study prototype")).toBeVisible();
+  await expect(page.getByLabel("Interactive phone frame")).toBeVisible();
+  await expect(page.locator(".phone-page")).toBeVisible();
+
+  const phoneBackground = await page.locator(".phone-page").evaluate((node) => {
+    return window.getComputedStyle(node).backgroundImage;
+  });
+
+  expect(phoneBackground).toContain("radial-gradient");
+  expect(phoneBackground.toLowerCase()).not.toContain("green");
 });

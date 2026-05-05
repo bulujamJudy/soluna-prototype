@@ -302,7 +302,7 @@ export function PollPage({ nav }: PollPageProps) {
                     display: "grid",
                     gap: 8,
                     borderColor: isSelected ? "var(--strong)" : "var(--line)",
-                    background: isSelected ? "rgba(0, 120, 255, 0.08)" : "var(--surface)",
+                    background: isSelected ? "rgba(255, 209, 102, 0.18)" : "var(--surface)",
                     textAlign: "left"
                   }}
                 >
@@ -340,7 +340,7 @@ export function PollPage({ nav }: PollPageProps) {
                           width: `${choicePercent}%`,
                           height: "100%",
                           borderRadius: 999,
-                          background: isSelected ? "var(--strong)" : "rgba(0, 120, 255, 0.38)"
+                          background: isSelected ? "var(--strong)" : "rgba(255, 209, 102, 0.38)"
                         }}
                       />
                     </div>
@@ -418,7 +418,7 @@ export function PostDetailPage({ nav }: PostDetailPageProps) {
                     display: "grid",
                     gap: 10,
                     borderColor: isActive ? "var(--strong)" : "var(--line)",
-                    background: isActive ? "rgba(0, 120, 255, 0.08)" : "var(--surface)"
+                    background: isActive ? "rgba(255, 209, 102, 0.18)" : "var(--surface)"
                   }}
                 >
                   <button
