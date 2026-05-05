@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Bell, Send, Sparkles } from "lucide-react";
+import { Check, Lock, MoreHorizontal, Play, Send, Sparkles, X } from "lucide-react";
 import { blogCards, practiceCards } from "../data/mockContent";
 import type { PrototypeRoute, RouteName } from "../prototype/routeTypes";
 import { BottomNav } from "../components/phone/BottomNav";
@@ -20,6 +20,9 @@ const bunnyDialogues = [
   "Your coach session is tomorrow. Want help naming one thing to bring?",
   "There is a new poll if sharing feels easier than writing."
 ];
+
+const featuredPracticeCards = practiceCards.slice(0, 2);
+const exerciseCards = ["Values", "Startboard", "Let it Out", "Breathwork", "Free Write"];
 
 function openPlaceholder(nav: PageNav, title: string) {
   nav.push({ name: "placeholder", title });
@@ -51,20 +54,22 @@ export function HomePage({ nav }: { nav: PageNav }) {
       />
       <PhoneScroll>
         <Section>
-          <Card>
+          <Card className="widget-card">
             <div className="inline-between">
               <span>
-                <p className="eyebrow">Widget suggestion</p>
                 <strong>Add a Soluna widget</strong>
-                <small>Keep Bunny, safety, and upcoming coach reminders one tap away.</small>
+                <small>Your daily movement, within reach</small>
               </span>
-              <Bell size={18} />
+              <X size={18} aria-label="Dismiss widget suggestion" />
             </div>
+            <SecondaryButton type="button" onClick={() => openPlaceholder(nav, "Explore widget")}>
+              Explore widget
+            </SecondaryButton>
           </Card>
         </Section>
 
         <Section title="Space Bunny Buddy">
-          <Card onClick={cycleBunnyDialogue}>
+          <Card className="bunny-card" onClick={cycleBunnyDialogue}>
             <div className="bunny-stage">
               <div className="bunny-bubble">{bunnyDialogues[bunnyLine]}</div>
               <ImageSlot label="Replace with actual image: Space Bunny illustration" />
@@ -93,53 +98,79 @@ export function HomePage({ nav }: { nav: PageNav }) {
 
         <Section title="Mental health practice">
           <div className="h-scroll card-rail">
-            {practiceCards.map((practice) => (
+            {featuredPracticeCards.map((practice) => (
               <Card key={practice} onClick={() => openPlaceholder(nav, `${practice} practice`)}>
                 <div className="practice-card-content">
                   <Sparkles size={18} />
                   <strong>{practice}</strong>
-                  <ArrowRight size={16} />
+                </div>
+              </Card>
+            ))}
+          </div>
+          <div className="h-scroll exercise-rail" aria-label="Exercise shortcuts">
+            {exerciseCards.map((exercise) => (
+              <Card key={exercise} className="exercise-card" onClick={() => openPlaceholder(nav, `${exercise} practice`)}>
+                <div className="practice-card-content">
+                  <Sparkles size={15} />
+                  <strong>{exercise}</strong>
                 </div>
               </Card>
             ))}
           </div>
         </Section>
 
-        <Section
-          title="Blog library"
-          action={
-            <SecondaryButton type="button" onClick={() => nav.push({ name: "library" })}>
-              See all
-            </SecondaryButton>
-          }
-        >
-          <Card>
-            <div className="inline-between">
-              <span>
-                <p className="eyebrow">Topics of the week</p>
-                <strong>{blogCards.filter((article) => article.read).length}/{blogCards.length} read</strong>
-              </span>
-              <Sparkles size={18} />
+        <Section>
+          <h3 className="topics-week-title">Topics of the week</h3>
+          <Card className="weekly-progress-card">
+            <strong>Sleep Awareness</strong>
+            <div className="weekly-task-row">
+              <span>Read 3 articles</span>
+              <div className="mini-progress" aria-label={`${blogCards.filter((article) => article.read).length} of ${blogCards.length} articles read`}>
+                <span style={{ width: `${(blogCards.filter((article) => article.read).length / blogCards.length) * 100}%` }} />
+                <strong>1/3</strong>
+              </div>
             </div>
-            <div className="mini-progress" aria-hidden="true">
-              <span style={{ width: `${(blogCards.filter((article) => article.read).length / blogCards.length) * 100}%` }} />
+            <div className="weekly-task-row">
+              <span>Join the poll</span>
+              <div className="mini-progress" aria-label="1 of 1 poll tasks completed">
+                <span style={{ width: "100%" }} />
+                <strong className="is-on-progress-fill">1/1</strong>
+              </div>
             </div>
           </Card>
-          <div className="h-scroll card-rail">
+          <div className="h-scroll card-rail article-rail">
             {blogCards
               .slice()
               .sort((a, b) => Number(a.read) - Number(b.read))
               .map((article) => (
-              <Card key={article.id} onClick={() => openPlaceholder(nav, article.title)}>
+              <Card key={article.id} className="article-card" onClick={() => openPlaceholder(nav, article.title)}>
                 <div className="article-card-content">
+                  <div className="article-card-controls" aria-hidden="true">
+                    <span className={article.read ? "article-status-dot is-finished" : "article-status-dot"}>
+                      {article.read ? <Check size={18} /> : null}
+                    </span>
+                    <MoreHorizontal size={18} />
+                  </div>
                   <ImageSlot label={`Replace with actual image: ${article.title} article illustration`} />
-                  <strong>{article.title}</strong>
-                  <small>{article.type} · {article.readTime}</small>
+                  <div className="article-card-copy">
+                    <span className="article-title-row">
+                      <Lock size={16} />
+                      <strong>{article.title}</strong>
+                    </span>
+                    <small className="article-meta-row">
+                      <Play size={14} />
+                      <span>{article.type}</span>
+                    </small>
+                    <small>{article.readTime}</small>
+                  </div>
                   {article.read ? <span className="chip">Read</span> : null}
                 </div>
               </Card>
               ))}
           </div>
+          <SecondaryButton type="button" className="see-all-blog-button" onClick={() => nav.push({ name: "library" })}>
+            See all Blog
+          </SecondaryButton>
         </Section>
       </PhoneScroll>
       <BottomNav activeRoute="home" onNavigate={(routeName) => nav.goTab?.(routeName)} />
