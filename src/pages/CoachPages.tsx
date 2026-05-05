@@ -1,12 +1,10 @@
 import {
-  BadgeCheck,
   Bookmark,
   BookmarkCheck,
   CalendarDays,
   CheckCircle2,
   ChevronDown,
   Clock3,
-  GraduationCap,
   HeartHandshake,
   MessageCircleMore,
   ShieldCheck,
@@ -15,7 +13,7 @@ import {
   FileText,
   Users,
   Wallet,
-  CalendarRange,
+  ChevronRight,
   type LucideIcon
 } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
@@ -23,9 +21,10 @@ import { coaches, sessions } from "../data/mockContent";
 import type { PrototypeRoute, RouteName } from "../prototype/routeTypes";
 import { BottomNav } from "../components/phone/BottomNav";
 import { PhoneHeader } from "../components/phone/PhoneHeader";
-import { Card, ImageSlot, PhonePage, PhoneScroll, PrimaryButton, Section, SecondaryButton, StickyFooter } from "../components/phone/UiPrimitives";
+import { Card, PhonePage, PhoneScroll, PrimaryButton, Section, SecondaryButton, StickyFooter } from "../components/phone/UiPrimitives";
 
 type CoachNav = {
+  route?: PrototypeRoute;
   push: (route: PrototypeRoute) => void;
   back: () => void;
   reset: (route: PrototypeRoute) => void;
@@ -123,10 +122,26 @@ function MetaLine({ icon: Icon, children }: { icon: LucideIcon; children: ReactN
   );
 }
 
-function PageFrame({ title, nav, left = "back", right = "bell", children, withBottomNav = false }: { title: string; nav: CoachNav; left?: "back" | "close" | "safety" | "none"; right?: "bell" | "none"; children: ReactNode; withBottomNav?: boolean }) {
+function PageFrame({
+  title,
+  nav,
+  left = "back",
+  right = "bell",
+  children,
+  withBottomNav = false,
+  onBack
+}: {
+  title: string;
+  nav: CoachNav;
+  left?: "back" | "close" | "safety" | "none";
+  right?: "bell" | "none";
+  children: ReactNode;
+  withBottomNav?: boolean;
+  onBack?: () => void;
+}) {
   return (
     <PhonePage withBottomNav={withBottomNav}>
-      <PhoneHeader title={title} left={left} right={right} onBack={nav.back} />
+      <PhoneHeader title={title} left={left} right={right} onBack={onBack ?? nav.back} />
       <PhoneScroll>{children}</PhoneScroll>
       {withBottomNav ? <BottomNav activeRoute="coach" onNavigate={(routeName) => nav.goTab?.(routeName)} /> : null}
     </PhonePage>
@@ -134,97 +149,102 @@ function PageFrame({ title, nav, left = "back", right = "bell", children, withBo
 }
 
 export function CoachPage({ nav }: PageProps) {
+  const coachRows = [
+    {
+      label: "Your Regular Coach",
+      name: "Emma Rodriguez",
+      languages: "En · Cn · Es",
+      tags: ["Family", "Relationships"],
+      icon: "avatar"
+    },
+    {
+      label: "Most Matched New Coach",
+      name: "Michael Torres",
+      languages: "En · Es",
+      tags: ["Self-Esteem", "Confidence"],
+      icon: "star",
+      emphasized: true
+    },
+    {
+      label: "Recent Available Coach",
+      name: "Dr. Sarah Chen",
+      languages: "En · Cn",
+      tags: ["Anxiety", "Stress"],
+      icon: "sparkles"
+    }
+  ];
+
   return (
-    <PageFrame title="Coach" nav={nav} left="none" withBottomNav>
+    <PageFrame title="Chat with a Coach" nav={nav} left="none" withBottomNav>
+      <h1 className="sr-only">Coach</h1>
+      <button className="coach-dropin-row" onClick={() => nav.push(route("dropInChat"))}>
+        <span className="coach-icon-tile">
+          <MessageCircleMore size={22} />
+        </span>
+        <span className="coach-row-copy">
+          <strong>Drop-in Chat</strong>
+          <small>Join the waiting room and talk with the next available coach</small>
+          <span className="coach-status-line">
+            <span className="status-dot" />
+            <span>Open</span>
+            <span>·</span>
+            <span>1 person in line</span>
+          </span>
+        </span>
+        <ChevronRight size={20} />
+      </button>
+
       <Section>
-        <Card>
-          <div style={{ display: "grid", gap: 10 }}>
-            <div style={{ display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12 }}>
-              <div style={{ display: "grid", gap: 4 }}>
-                <strong>Drop-in support</strong>
-                <span style={{ color: "var(--muted)", fontSize: 13 }}>
-                  A free, low-pressure place to check in when you do not want to wait for a full booking.
-                </span>
-              </div>
-              <Sparkles size={18} />
-            </div>
-            <PrimaryButton onClick={() => nav.push(route("dropInChat"))}>Drop-in Chat</PrimaryButton>
+        <div className="coach-booking-hero">
+          <div className="coach-hero-art" aria-hidden="true">
+            <span className="coach-window coach-window-main" />
+            <span className="coach-window coach-window-small" />
           </div>
-        </Card>
-      </Section>
-
-      <Section title="Free session">
-        <Card>
-          <div style={{ display: "grid", gap: 12 }}>
-            <MetaLine icon={CalendarRange}>One free starter session is ready whenever you want to book it.</MetaLine>
-            <MetaLine icon={MessageCircleMore}>Pick a coach, join a waiting room, or learn how coaching works first.</MetaLine>
-            <SecondaryButton onClick={() => nav.push(route("coachingQA"))}>How coaching works</SecondaryButton>
-          </div>
-        </Card>
-      </Section>
-
-      <Section title="Upcoming session">
-        <Card>
-          <div style={{ display: "grid", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-              <div style={{ display: "grid", gap: 4 }}>
-                <strong>{sessions[0].coach}</strong>
-                <span style={{ color: "var(--muted)", fontSize: 13 }}>{sessions[0].topic}</span>
-              </div>
-              <BadgeCheck size={18} />
-            </div>
-            <MetaLine icon={CalendarDays}>{sessions[0].date}</MetaLine>
-            <MetaLine icon={Clock3}>{sessions[0].time}</MetaLine>
-          </div>
-        </Card>
-      </Section>
-
-      <Section
-        title="Coaches"
-        action={
-          <SecondaryButton onClick={() => nav.push(route("coachList"))} style={{ minHeight: 36, padding: "0 12px" }}>
-            Browse All Coaches
-          </SecondaryButton>
-        }
-      >
-        <div style={{ display: "grid", gap: 12 }}>
-          {coaches.map((coach) => (
-            <Card key={coach.id}>
-              <div style={{ display: "grid", gap: 10 }}>
-                <div style={{ display: "flex", gap: 12, alignItems: "start" }}>
-                  <CoachAvatar name={coach.name} />
-                  <div style={{ minWidth: 0, flex: 1, display: "grid", gap: 4 }}>
-                    <strong>{coach.name}</strong>
-                    <span style={{ color: "var(--muted)", fontSize: 13 }}>{coach.label}</span>
-                    <span style={{ color: "var(--muted)", fontSize: 13 }}>{coach.credentials}</span>
-                  </div>
-                </div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {coach.tags.map((tag) => (
-                    <span key={tag} className="chip" style={{ pointerEvents: "none" }}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <SecondaryButton onClick={() => nav.push(route("coachProfile"))}>View profile</SecondaryButton>
-              </div>
-            </Card>
-          ))}
+          <h3>Book a Free Session</h3>
+          <p>Book free sessions with caring coaches who understand you. Free, forever.</p>
+          <small>Office Hours: 9:00 AM - 10:00 PM</small>
+          <PrimaryButton onClick={() => nav.push(route("coachList"))}>Browse All Coaches</PrimaryButton>
+          <button className="coach-learn-more" onClick={() => nav.push(route("coachingQA"))}>
+            Learn more about Coaching
+          </button>
         </div>
       </Section>
 
-      <Section title="Session history">
-        <div style={{ display: "grid", gap: 10 }}>
-          {coachHistory.map((item) => (
-            <Card key={item.date}>
-              <div style={{ display: "grid", gap: 6 }}>
-                <strong>{item.date}</strong>
-                <span style={{ color: "var(--muted)", fontSize: 13 }}>{item.note}</span>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </Section>
+      <button className="coach-line-card" onClick={() => nav.push(route("mySessions"))}>
+        <span className="coach-icon-tile is-strong">
+          <CalendarDays size={22} />
+        </span>
+        <span className="coach-row-copy">
+          <strong>Upcoming Session</strong>
+          <small>{sessions[0].coach} · Feb 26 at 3:00 PM</small>
+        </span>
+        <ChevronRight size={20} />
+      </button>
+
+      <div className="coach-list-card">
+        {coachRows.map((coach) => (
+          <button key={coach.label} className="coach-list-row" onClick={() => nav.push(route("coachProfile"))}>
+            <span className="coach-icon-tile">
+              {coach.icon === "star" ? <Sparkles size={22} /> : coach.icon === "sparkles" ? <Sparkles size={22} /> : null}
+            </span>
+            <span className="coach-row-copy">
+              <strong>{coach.label}</strong>
+              <small>{coach.name} <span>|</span> {coach.languages}</small>
+              <span className="coach-tag-row">
+                {coach.tags.map((tag) => (
+                  <span key={tag} className={coach.emphasized ? "coach-tag is-strong" : "coach-tag"}>{tag}</span>
+                ))}
+              </span>
+            </span>
+            <ChevronRight size={20} />
+          </button>
+        ))}
+      </div>
+
+      <button className="coach-history-row" onClick={() => nav.push({ name: "mySessions", params: { tab: "past" } })}>
+        <strong>Session History</strong>
+        <ChevronRight size={20} />
+      </button>
     </PageFrame>
   );
 }
@@ -387,67 +407,76 @@ export function CoachingQAPage({ nav }: PageProps) {
 export function CoachProfilePage({ nav }: PageProps) {
   const [bookmarked, setBookmarked] = useState(false);
   const coach = coaches[0];
+  const coachInitials = coach.name
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("");
 
   return (
     <PageFrame title="Coach Profile" nav={nav} left="back">
-      <Section>
-        <Card>
-          <div style={{ display: "grid", gap: 12 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start" }}>
-              <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                <ImageSlot label="Coach avatar" />
-                <div style={{ display: "grid", gap: 4 }}>
-                  <strong>{coach.name}</strong>
-                  <span style={{ color: "var(--muted)", fontSize: 13 }}>{coach.credentials}</span>
-                  <span style={{ color: "var(--muted)", fontSize: 13 }}>{coach.pronouns}</span>
-                </div>
-              </div>
-              <SecondaryButton onClick={() => setBookmarked((current) => !current)} aria-label={bookmarked ? "Remove bookmark" : "Bookmark coach"} style={{ minHeight: 36, width: 44, padding: 0 }}>
-                {bookmarked ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
-              </SecondaryButton>
-            </div>
-
-            <p style={{ margin: 0, color: "var(--text)", lineHeight: 1.5 }}>{coach.bio}</p>
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {coach.tags.map((tag) => (
-                <span key={tag} className="chip" style={{ pointerEvents: "none" }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        </Card>
-      </Section>
-
-      <Section title="Focus">
-        <div style={{ display: "grid", gap: 10 }}>
-          <Card>
-            <MetaLine icon={GraduationCap}>Training: counseling graduate and youth mental health focus.</MetaLine>
-          </Card>
-          <Card>
-            <MetaLine icon={BadgeCheck}>Certificates: CCPA certification, youth support workshops, active listening practice.</MetaLine>
-          </Card>
+      <div className="coach-profile-page">
+      <section className="coach-profile-hero">
+        <SecondaryButton onClick={() => setBookmarked((current) => !current)} aria-label={bookmarked ? "Remove bookmark" : "Bookmark coach"} className="coach-profile-bookmark">
+          {bookmarked ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
+        </SecondaryButton>
+        <div className="coach-profile-avatar" aria-hidden="true">{coachInitials}</div>
+        <h3>{coach.name}</h3>
+        <p>{coach.pronouns}</p>
+        <div className="coach-profile-meta">
+          <span>Hispanic/Latina</span>
+          <span>English</span>
+          <span>Mandarin</span>
+          <span>Spanish</span>
+          <span>30-40</span>
         </div>
-      </Section>
+        <p className="coach-next-available">Next available: Thursday 10:00am</p>
+      </section>
 
-      <Section title="How I work">
-        <Card>
-          <div style={{ display: "grid", gap: 10 }}>
-            <MetaLine icon={MessageCircleMore}>Practical conversations, clear next steps, and calm pacing.</MetaLine>
-            <MetaLine icon={ShieldCheck}>You can bring the messy version. The session will still make sense.</MetaLine>
-          </div>
+      <section className="coach-profile-summary">
+        <Card className="coach-bio-card">
+          I help students navigate stress, big transitions, and figuring out what comes next. My approach is warm and conversational — I believe the best breakthroughs happen when you feel comfortable being yourself.
         </Card>
-      </Section>
+        <h3 className="coach-profile-label">Specializes in</h3>
+        <div className="coach-specialty-row">
+          {["Academic stress", "Life transitions", "Identity", "Family", "Relationships", "Self-Esteem", "Confidence"].map((tag, index) => (
+            <span key={tag} className={index < 3 ? "coach-specialty-chip is-matched" : "coach-specialty-chip"}>{tag}</span>
+          ))}
+        </div>
+      </section>
 
+      <section className="coach-profile-credentials">
+        <h3>Certificates</h3>
+        <ul>
+          <li>Licensed Clinical Social Worker (LCSW)</li>
+          <li>Certified Family Therapist</li>
+          <li>Trauma-Informed Care Certification</li>
+        </ul>
+        <h3>Education</h3>
+        <ul>
+          <li>Master of Social Work (MSW), University of California, Los Angeles</li>
+          <li>Bachelor of Arts in Psychology, Stanford University</li>
+        </ul>
+      </section>
+
+      <section className="coach-availability-cta">
+        <div className="coach-session-callout">
+          <MetaLine icon={Clock3}>30 minutes</MetaLine>
+          <MetaLine icon={MessageCircleMore}>Video call or text chat — your choice</MetaLine>
+          <MetaLine icon={Wallet}>Free · No insurance needed</MetaLine>
+        </div>
+      </section>
       <StickyFooter>
         <PrimaryButton onClick={() => nav.push(route("schedule"))}>Check Availability</PrimaryButton>
       </StickyFooter>
+      </div>
     </PageFrame>
   );
 }
 
 export function SchedulePage({ nav }: PageProps) {
+  const disabledDays = new Set(["1", "2", "3", "4", "5", "6", "12", "19", "23"]);
+  const disabledTimes = new Set(["10:00 AM"]);
   const [selectedDay, setSelectedDay] = useState("30");
   const [selectedTime, setSelectedTime] = useState("11:00 AM");
   const times = ["9:00 AM", "10:00 AM", "11:00 AM", "2:00 PM"];
@@ -472,18 +501,20 @@ export function SchedulePage({ nav }: PageProps) {
               {may2026Weeks.flatMap((week, weekIndex) =>
                 week.map((day, dayIndex) => {
                   const active = day === selectedDay;
+                  const disabled = !day || disabledDays.has(day);
                   return (
                     <button
                       key={`${weekIndex}-${dayIndex}-${day || "blank"}`}
-                      onClick={() => day && setSelectedDay(day)}
-                      disabled={!day}
+                      onClick={() => day && !disabled && setSelectedDay(day)}
+                      disabled={disabled}
                       style={{
                         minHeight: 38,
                         borderRadius: 12,
                         border: "1px solid var(--line)",
                         background: active ? "var(--strong)" : "var(--surface)",
                         color: active ? "#fff" : day ? "var(--text)" : "transparent",
-                        opacity: day ? 1 : 0.35
+                        opacity: disabled ? 0.35 : 1,
+                        cursor: disabled ? "not-allowed" : "pointer"
                       }}
                     >
                       {day}
@@ -499,16 +530,20 @@ export function SchedulePage({ nav }: PageProps) {
 
       <Section title="Time">
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10 }}>
-          {times.map((time) => (
-            <button
-              key={time}
-              className={selectedTime === time ? "chip is-active" : "chip"}
-              onClick={() => setSelectedTime(time)}
-              style={{ minHeight: 44 }}
-            >
-              {time}
-            </button>
-          ))}
+          {times.map((time) => {
+            const disabled = disabledTimes.has(time);
+            return (
+              <button
+                key={time}
+                className={selectedTime === time ? "chip is-active" : "chip"}
+                onClick={() => !disabled && setSelectedTime(time)}
+                disabled={disabled}
+                style={{ minHeight: 44, opacity: disabled ? 0.35 : 1, cursor: disabled ? "not-allowed" : "pointer" }}
+              >
+                {time}
+              </button>
+            );
+          })}
         </div>
         <div style={{ marginTop: 10, color: "var(--muted)", fontSize: 13 }}>Selected time: {selectedTime}</div>
       </Section>
@@ -599,8 +634,9 @@ export function BookingReviewPage({ nav }: PageProps) {
   return (
     <PageFrame title="Confirm Booking" nav={nav} left="back">
       <Section title="Review">
-        <Card>
-          <div style={{ display: "grid", gap: 12 }}>
+        <Card className="booking-review-card">
+          <CoachAvatar name="Dr. Sarah Chen" />
+          <div className="booking-review-details">
             <MetaLine icon={CheckCircle2}>Coach: Dr. Sarah Chen</MetaLine>
             <MetaLine icon={CalendarDays}>May 30, 2026 at 11:00 AM</MetaLine>
             <MetaLine icon={Video}>Video session</MetaLine>
@@ -608,14 +644,14 @@ export function BookingReviewPage({ nav }: PageProps) {
         </Card>
       </Section>
 
-      <Section title="Trust and cost">
+      <Section title="What to expect from your chat">
         <div style={{ display: "grid", gap: 10 }}>
-          <Card>
-            <div style={{ display: "grid", gap: 10 }}>
-              <MetaLine icon={ShieldCheck}>Private session details stay inside the app.</MetaLine>
-              <MetaLine icon={Wallet}>No charge today. This session is covered by your plan.</MetaLine>
-              <MetaLine icon={Clock3}>You can reschedule or cancel from My Sessions.</MetaLine>
-            </div>
+          <Card className="booking-expect-card">
+            <ol className="booking-expect-list">
+              <li>Chats are up to 45 minutes long.</li>
+              <li>This is an AI-free zone. You'll connect with a real human with real care.</li>
+              <li>Soluna coaches can listen, help you set goals, and offer insights when you're feeling stuck.</li>
+            </ol>
           </Card>
 
           <Card>
@@ -649,20 +685,18 @@ export function BookingReviewPage({ nav }: PageProps) {
 export function BookingSuccessPage({ nav }: PageProps) {
   return (
     <PageFrame title="Booking Confirmed!" nav={nav} left="close">
-      <Section>
-        <Card>
-          <div style={{ display: "grid", gap: 12 }}>
-            <CheckCircle2 size={28} />
-            <strong>Your session is booked</strong>
-            <span style={{ color: "var(--muted)", fontSize: 13 }}>May 30, 2026 at 11:00 AM with Dr. Sarah Chen.</span>
-          </div>
-        </Card>
-      </Section>
+      <section className="booking-success-hero">
+        <div className="booking-success-message">
+          <CheckCircle2 size={34} />
+          <h3>Your session is booked</h3>
+          <p>May 30, 2026 at 11:00 AM with Dr. Sarah Chen.</p>
+        </div>
+      </section>
 
-      <Section title="Next steps">
-        <div style={{ display: "grid", gap: 10 }}>
+      <Section>
+        <div className="booking-success-actions">
           <SecondaryButton onClick={() => nav.push(route("mySessions"))}>Go to My Sessions</SecondaryButton>
-          <SecondaryButton onClick={() => nav.goTab?.("coach")}>Back to Coach</SecondaryButton>
+          <SecondaryButton className="ghost-link-button" onClick={() => nav.goTab?.("coach")}>Back to Coach</SecondaryButton>
         </div>
       </Section>
     </PageFrame>
@@ -670,7 +704,8 @@ export function BookingSuccessPage({ nav }: PageProps) {
 }
 
 export function MySessionsPage({ nav }: PageProps) {
-  const [tab, setTab] = useState<"upcoming" | "past">("upcoming");
+  const initialTab = nav.route?.params?.tab === "past" ? "past" : "upcoming";
+  const [tab, setTab] = useState<"upcoming" | "past">(initialTab);
   const upcoming = useMemo(
     () => [
       { title: "Dr. Sarah Chen", time: "May 30, 2026 · 11:00 AM", status: "Video" },
@@ -689,7 +724,7 @@ export function MySessionsPage({ nav }: PageProps) {
   const items = tab === "upcoming" ? upcoming : past;
 
   return (
-    <PageFrame title="My Sessions" nav={nav} left="back">
+    <PageFrame title="My Sessions" nav={nav} left="back" onBack={() => nav.reset(route("coach"))}>
       <Section>
         <div style={{ display: "inline-flex", gap: 4, padding: 4, border: "1px solid var(--line)", borderRadius: 999, background: "var(--surface-muted)" }}>
           <button className={tab === "upcoming" ? "chip is-active" : "chip"} onClick={() => setTab("upcoming")}>

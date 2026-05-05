@@ -1,10 +1,10 @@
 import type { FeatureChapter } from "../../data/features";
 
-export function NarrativePanel({ feature }: { feature: FeatureChapter }) {
+export function NarrativePanel({ feature, featureLabel }: { feature: FeatureChapter; featureLabel?: string }) {
   return (
     <aside className="narrative-panel">
-      <p className="eyebrow">{feature.eyebrow}</p>
-      <h2>{feature.title}</h2>
+      <p className="feature-kicker">{feature.eyebrow}</p>
+      <h2>{featureLabel ?? feature.title}</h2>
       <section>
         <h3>Problem</h3>
         <p>{feature.problem}</p>
