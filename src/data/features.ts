@@ -28,8 +28,8 @@ export const features: FeatureChapter[] = [
       "Repeat free-service and state-funded explanations where booking decisions happen."
     ],
     prototypePath: ["Coach", "Coach Profile", "Schedule", "Session Format", "Booking Review", "Success", "Coaching FAQ"],
-    beforeVideoLabel: "Replace with recorded before video: Trust friction demo",
-    beforeVideoSrc: "/videos/trust-before.mp4",
+    beforeVideoLabel: "Trust friction before screenshot",
+    beforeVideoSrc: "/trust-before.png",
     afterStartRoute: { name: "coach" }
   },
   {
@@ -46,8 +46,8 @@ export const features: FeatureChapter[] = [
       "Make response signals visible without forcing a long comment."
     ],
     prototypePath: ["Community", "Poll", "Post Detail", "Annotation Reaction", "My Activity"],
-    beforeVideoLabel: "Replace with recorded before video: Community engagement friction demo",
-    beforeVideoSrc: "/videos/community-before.mp4",
+    beforeVideoLabel: "Community engagement friction before screenshot",
+    beforeVideoSrc: "/community-before.png",
     afterStartRoute: { name: "community" }
   },
   {
@@ -64,8 +64,8 @@ export const features: FeatureChapter[] = [
       "Connect Bunny prompts to articles, local resources, safety support, widgets, and coach reminders."
     ],
     prototypePath: ["Home", "Bunny Prompt", "Bunny Chat", "Summary", "Safety", "Local Services", "Library"],
-    beforeVideoLabel: "Replace with recorded before video: Design accessibility friction demo",
-    beforeVideoSrc: "/videos/accessibility-before.mp4",
+    beforeVideoLabel: "Design accessibility friction before screenshot",
+    beforeVideoSrc: "/accessibility-before.png",
     afterStartRoute: { name: "home" }
   }
 ];
