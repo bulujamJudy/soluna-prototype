@@ -115,7 +115,7 @@ export function BunnyChatPage({ nav }: { nav: PageNav }) {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                  {message.speaker === "user" ? <MessageCircle size={14} /> : <Brain size={14} />}
+                  {message.speaker === "user" ? <MessageCircle size={14} /> : <img src="/bunny.png" alt="Bunny avatar" style={{ width: 14, height: 14, borderRadius: "50%" }} />}
                   <strong>{message.speaker === "user" ? "You" : "Bunny"}</strong>
                 </div>
                 <p style={{ marginBottom: 0, lineHeight: 1.45 }}>{message.text}</p>
