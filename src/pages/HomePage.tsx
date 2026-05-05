@@ -72,7 +72,11 @@ export function HomePage({ nav }: { nav: PageNav }) {
           <Card className="bunny-card" onClick={cycleBunnyDialogue}>
             <div className="bunny-stage">
               <div className="bunny-bubble">{bunnyDialogues[bunnyLine]}</div>
-              <ImageSlot label="Replace with actual image: Space Bunny illustration" />
+              <img 
+                src="/bunny.png" 
+                alt="Space Bunny" 
+                style={{ width: 150, height: 150, objectFit: "contain" }} 
+              />
             </div>
           </Card>
 
@@ -86,7 +90,7 @@ export function HomePage({ nav }: { nav: PageNav }) {
             <TextInput
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
-              placeholder="Type in to share your thought with Space Bunny"
+              placeholder="Share your thought with Space Bunny"
               aria-label="Share your thought"
             />
             <PrimaryButton type="submit" aria-label="Send to bunny" disabled={!draft.trim()}>
