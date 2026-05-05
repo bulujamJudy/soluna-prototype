@@ -286,6 +286,8 @@ textarea:focus-visible {
   width: 100%;
   min-width: 0;
   justify-items: center;
+  width: 100%;
+  min-width: 0;
 }
 
 .phone-frame {
@@ -433,6 +435,7 @@ textarea:focus-visible {
   }
 
   .phone-stage {
+    justify-items: center;
     order: 2;
   }
 
@@ -468,8 +471,8 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: 44px 1fr 44px;
   align-items: center;
-  min-height: 66px;
-  padding: 18px 12px 9px;
+  min-height: 88px;
+  padding: 40px 12px 10px;
   border-bottom: 1px solid var(--line);
   background: rgba(246, 246, 248, 0.86);
   backdrop-filter: blur(18px) saturate(180%);
@@ -1875,6 +1878,7 @@ textarea::placeholder {
   }
 
   .demo-intro h1 {
+    max-width: 100%;
     font-size: 38px;
   }
 
@@ -1888,7 +1892,7 @@ textarea::placeholder {
     width: auto;
   }
 
-  .feature-tabs button,
+  .feature-menu button,
   .compare-toggle button {
     white-space: nowrap;
   }

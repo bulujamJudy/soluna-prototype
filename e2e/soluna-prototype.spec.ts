@@ -26,9 +26,7 @@ test("before-after toggle opens the after prototype", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText("Replace with recorded before video: Trust friction demo")).toBeVisible();
   await page.getByRole("button", { name: "After" }).click();
-  await expect(
-    page.getByTestId("after-prototype-slot").getByRole("heading", { name: "Coach", exact: true })
-  ).toBeVisible();
+  await expect(page.getByTestId("after-prototype-slot").getByRole("heading", { name: "Coach", exact: true })).toBeVisible();
 });
 
 test("feature tabs reset before video labels", async ({ page }) => {
@@ -45,9 +43,7 @@ test("mobile layout keeps controls usable", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Trust" })).toBeVisible();
   await expect(page.getByRole("button", { name: "After" })).toBeVisible();
   await page.getByRole("button", { name: "After" }).click();
-  await expect(
-    page.getByTestId("after-prototype-slot").getByRole("heading", { name: "Coach", exact: true })
-  ).toBeVisible();
+  await expect(page.getByTestId("after-prototype-slot").getByRole("heading", { name: "Coach", exact: true })).toBeVisible();
 });
 
 test("after phone keeps demo shell while showing high-fi app styling", async ({ page }) => {
