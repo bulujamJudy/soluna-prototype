@@ -45,3 +45,18 @@ test("mobile layout keeps controls usable", async ({ page }) => {
   await page.getByRole("button", { name: "After" }).click();
   await expect(page.getByTestId("after-prototype-slot").getByRole("heading", { name: "Coach", exact: true })).toBeVisible();
 });
+
+test("after phone keeps demo shell while showing high-fi app styling", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "After" }).click();
+  await expect(page.getByText("Interactive case-study prototype")).toBeVisible();
+  await expect(page.getByLabel("Interactive phone frame")).toBeVisible();
+  await expect(page.locator(".phone-page")).toBeVisible();
+
+  const phoneBackground = await page.locator(".phone-page").evaluate((node) => {
+    return window.getComputedStyle(node).backgroundImage;
+  });
+
+  expect(phoneBackground).toContain("radial-gradient");
+  expect(phoneBackground.toLowerCase()).not.toContain("green");
+});

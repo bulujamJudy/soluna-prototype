@@ -197,7 +197,7 @@ export function LocalServicesPage({ nav }: { nav: PageNav }) {
               height: 220,
               border: "1px solid var(--line)",
               borderRadius: 16,
-              background: "linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%)",
+              background: "rgba(255, 255, 255, 0.1)",
               overflow: "hidden"
             }}
           >
@@ -206,7 +206,7 @@ export function LocalServicesPage({ nav }: { nav: PageNav }) {
                 position: "absolute",
                 inset: 0,
                 backgroundImage:
-                  "linear-gradient(rgba(148,163,184,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.22) 1px, transparent 1px)",
+                  "linear-gradient(rgba(255,255,255,.16) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.16) 1px, transparent 1px)",
                 backgroundSize: "28px 28px"
               }}
             />

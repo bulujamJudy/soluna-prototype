@@ -47,7 +47,7 @@ export function ProfilePage({ nav }: ProfilePageProps) {
                   width: 56,
                   height: 56,
                   borderRadius: 999,
-                  background: "rgba(0, 120, 255, 0.12)",
+                  background: "rgba(255, 209, 102, 0.18)",
                   display: "grid",
                   placeItems: "center",
                   color: "var(--strong)",
@@ -116,7 +116,7 @@ export function ProfilePage({ nav }: ProfilePageProps) {
                   gap: 6,
                   textAlign: "left",
                   borderColor: savedIndex === index ? "var(--strong)" : "var(--line)",
-                  background: savedIndex === index ? "rgba(0, 120, 255, 0.08)" : "var(--surface)"
+                  background: savedIndex === index ? "rgba(255, 209, 102, 0.18)" : "var(--surface)"
                 }}
               >
                 <strong>{item.title}</strong>
