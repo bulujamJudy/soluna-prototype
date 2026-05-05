@@ -139,11 +139,55 @@ textarea:focus-visible {
   transition: background 140ms ease, box-shadow 140ms ease, transform 140ms ease;
 }
 
+<<<<<<< codex/soluna-ux-annotations
+=======
+.feature-menu {
+  grid-area: featureNav;
+  position: fixed;
+  top: clamp(34px, 5vh, 58px);
+  left: clamp(14px, 1.5vw, 24px);
+  z-index: 5;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 36px;
+  width: 240px;
+  padding: 0;
+}
+
+.feature-menu-items {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feature-menu-items button {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  color: #a0a0a6;
+  background: transparent;
+  transition: color 140ms ease, transform 140ms ease;
+}
+
+.feature-menu-items button span {
+  color: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+>>>>>>> main
 .compare-toggle button.is-active {
   background: var(--surface);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 6px 14px rgba(0, 0, 0, 0.07);
 }
 
+<<<<<<< codex/soluna-ux-annotations
 .feature-menu {
   position: fixed;
   top: clamp(34px, 5vh, 58px);
@@ -187,13 +231,26 @@ textarea:focus-visible {
 .feature-menu-items button.is-active,
 .feature-menu-items button.is-active span {
   color: var(--text);
+=======
+.feature-menu-items button.is-active {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.feature-menu-items button.is-active span {
+>>>>>>> main
   font-weight: 800;
 }
 
 .demo-layout {
   display: grid;
   grid-template-columns: minmax(500px, 640px) minmax(420px, 1fr);
+<<<<<<< codex/soluna-ux-annotations
   grid-template-areas: "narrative device";
+=======
+  grid-template-areas:
+    "narrative device";
+>>>>>>> main
   column-gap: clamp(36px, 5vw, 76px);
   align-items: start;
   justify-content: stretch;
@@ -204,9 +261,15 @@ textarea:focus-visible {
 
 .narrative-panel {
   grid-area: narrative;
+<<<<<<< codex/soluna-ux-annotations
   justify-self: start;
   width: 100%;
   max-width: 620px;
+=======
+  width: 100%;
+  max-width: 620px;
+  justify-self: start;
+>>>>>>> main
   padding: 0;
 }
 
@@ -267,6 +330,11 @@ textarea:focus-visible {
 
 .device-column {
   grid-area: device;
+  position: fixed;
+  top: 50vh;
+  right: clamp(22px, 5vw, 72px);
+  left: calc(clamp(22px, 5vw, 72px) + clamp(14px, 1.5vw, 24px) + 15vw + 640px);
+  width: auto;
   display: grid;
   position: fixed;
   top: 50vh;
@@ -275,9 +343,16 @@ textarea:focus-visible {
   align-self: start;
   align-content: center;
   justify-items: center;
+<<<<<<< codex/soluna-ux-annotations
   width: auto;
   min-height: 0;
   gap: 0;
+=======
+  align-self: start;
+  align-content: center;
+  gap: 0;
+  min-height: 0;
+>>>>>>> main
   transform: translateY(-50%);
 }
 
@@ -286,6 +361,8 @@ textarea:focus-visible {
   width: 100%;
   min-width: 0;
   justify-items: center;
+  width: 100%;
+  min-width: 0;
 }
 
 .phone-frame {
@@ -433,6 +510,7 @@ textarea:focus-visible {
   }
 
   .phone-stage {
+    justify-items: center;
     order: 2;
   }
 
@@ -468,8 +546,8 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: 44px 1fr 44px;
   align-items: center;
-  min-height: 66px;
-  padding: 18px 12px 9px;
+  min-height: 88px;
+  padding: 40px 12px 10px;
   border-bottom: 1px solid var(--line);
   background: rgba(246, 246, 248, 0.86);
   backdrop-filter: blur(18px) saturate(180%);
@@ -1479,6 +1557,7 @@ textarea:focus-visible {
   }
 
   .demo-intro h1 {
+    max-width: 100%;
     font-size: 38px;
   }
 
@@ -1492,7 +1571,7 @@ textarea:focus-visible {
     width: auto;
   }
 
-  .feature-tabs button,
+  .feature-menu button,
   .compare-toggle button {
     white-space: nowrap;
   }
