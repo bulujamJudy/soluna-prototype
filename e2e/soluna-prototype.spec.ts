@@ -24,7 +24,7 @@ test("wide viewport uses iPhone 17 frame dimensions", async ({ page, isMobile })
 
 test("before-after toggle opens the after prototype", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByText("Replace with recorded before video: Trust friction demo")).toBeVisible();
+  await expect(page.getByAltText("Trust friction before screenshot")).toBeVisible();
   await page.getByRole("button", { name: "After" }).click();
   await expect(page.getByTestId("after-prototype-slot").getByRole("heading", { name: "Coach", exact: true })).toBeVisible();
 });
@@ -32,9 +32,9 @@ test("before-after toggle opens the after prototype", async ({ page }) => {
 test("feature tabs reset before video labels", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Community Engagement" }).click();
-  await expect(page.getByText("Replace with recorded before video: Community engagement friction demo")).toBeVisible();
+  await expect(page.getByAltText("Community engagement friction before screenshot")).toBeVisible();
   await page.getByRole("button", { name: "Design Accessibility" }).click();
-  await expect(page.getByText("Replace with recorded before video: Design accessibility friction demo")).toBeVisible();
+  await expect(page.getByAltText("Design accessibility friction before screenshot")).toBeVisible();
 });
 
 test("mobile layout keeps controls usable", async ({ page }) => {

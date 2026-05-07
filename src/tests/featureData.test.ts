@@ -7,9 +7,10 @@ describe("feature metadata", () => {
     expect(features.map((feature) => feature.id)).toEqual(["trust", "community", "accessibility"]);
   });
 
-  it("maps every feature to a before video replacement label and after start route", () => {
+  it("maps every feature to a before screenshot and after start route", () => {
     for (const feature of features) {
-      expect(feature.beforeVideoLabel).toContain("Replace with recorded before video");
+      expect(feature.beforeVideoLabel).toContain("before screenshot");
+      expect(feature.beforeVideoSrc).toMatch(/^\/.*-before\.png$/);
       expect(feature.afterStartRoute.name).toMatch(/home|coach|community/);
       expect(feature.problem.length).toBeGreaterThan(80);
       expect(feature.prototypePath.length).toBeGreaterThan(2);
