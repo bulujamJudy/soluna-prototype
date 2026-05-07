@@ -8,7 +8,12 @@ export const coaches = [
     credentials: "Licensed clinical psychologist",
     tags: ["Anxiety", "School Stress", "Mindfulness"],
     bio: "I help young people slow down racing thoughts and find one practical next step.",
-    availability: "Thu 11:00 AM"
+    availability: "Thu 11:00 AM",
+    demographics: ["Chinese American", "English", "Mandarin", "30-40"],
+    profileBio:
+      "I help students navigate stress, big transitions, and figuring out what comes next. My approach is warm and conversational. I believe the best breakthroughs happen when you feel comfortable being yourself.",
+    certificates: ["Licensed Clinical Psychologist", "Mindfulness-Based Stress Reduction", "Trauma-Informed Care Certification"],
+    education: ["PhD in Clinical Psychology, UCLA", "Bachelor of Arts in Psychology, Stanford University"]
   },
   {
     id: "jordan",
@@ -19,7 +24,12 @@ export const coaches = [
     credentials: "Counseling graduate, CCPA certified",
     tags: ["Identity", "Family", "Relationships"],
     bio: "I support teens and young adults navigating identity, family pressure, and belonging.",
-    availability: "Fri 2:00 PM"
+    availability: "Fri 2:00 PM",
+    demographics: ["Black/Korean", "English", "Spanish", "they/them", "25-35"],
+    profileBio:
+      "I support teens and young adults navigating identity, family pressure, and belonging. My sessions are calm, affirming, and practical, with room for whatever feels complicated today.",
+    certificates: ["Certified Youth Peer Support Specialist", "LGBTQ+ Affirming Care Training", "Family Systems Coaching Certificate"],
+    education: ["Master of Counseling, San Francisco State University", "Bachelor of Arts in Sociology, UC Berkeley"]
   },
   {
     id: "emma",
@@ -30,7 +40,12 @@ export const coaches = [
     credentials: "Youth mental health coach",
     tags: ["Communication", "Boundaries", "Conflict"],
     bio: "I focus on practical conversations that make relationships feel less impossible.",
-    availability: "Mon 9:00 AM"
+    availability: "Mon 9:00 AM",
+    demographics: ["Latina", "English", "Spanish", "Mandarin", "30-40"],
+    profileBio:
+      "I focus on practical conversations that make relationships feel less impossible. We can sort what happened, practice what to say next, and find one boundary that feels doable.",
+    certificates: ["Youth Mental Health First Aid", "Certified Relationship Coach", "Conflict Resolution Certificate"],
+    education: ["Master of Social Work, USC", "Bachelor of Arts in Psychology, UC Irvine"]
   }
 ];
 

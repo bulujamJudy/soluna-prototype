@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Check, Lock, MoreHorizontal, Play, Send, Sparkles, X } from "lucide-react";
+import { Check, Heart, LayoutDashboard, Lock, MessageCircle, MoreHorizontal, PencilLine, Play, Send, Smile, Target, Wind, X } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { blogCards, practiceCards } from "../data/mockContent";
 import type { PrototypeRoute, RouteName } from "../prototype/routeTypes";
 import { BottomNav } from "../components/phone/BottomNav";
@@ -23,6 +24,28 @@ const bunnyDialogues = [
 
 const featuredPracticeCards = practiceCards.slice(0, 2);
 const exerciseCards = ["Values", "Startboard", "Let it Out", "Breathwork", "Free Write"];
+const practiceIcons: Record<string, { icon: LucideIcon; label: string }> = {
+  Goal: { icon: Target, label: "target" },
+  "Mood Log": { icon: Smile, label: "smile" },
+  Values: { icon: Heart, label: "heart" },
+  Startboard: { icon: LayoutDashboard, label: "layout" },
+  "Let it Out": { icon: MessageCircle, label: "message" },
+  Breathwork: { icon: Wind, label: "wind" },
+  "Free Write": { icon: PencilLine, label: "pen" }
+};
+
+function getReadArticleIds() {
+  if (typeof window === "undefined") return new Set(blogCards.filter((article) => article.read).map((article) => article.id));
+  const saved = window.sessionStorage.getItem("soluna-read-articles");
+  const savedIds = saved ? (JSON.parse(saved) as string[]) : [];
+  return new Set([...blogCards.filter((article) => article.read).map((article) => article.id), ...savedIds]);
+}
+
+function PracticeIcon({ practice, size }: { practice: string; size: number }) {
+  const icon = practiceIcons[practice] ?? practiceIcons.Goal;
+  const Icon = icon.icon;
+  return <Icon size={size} data-practice-icon={icon.label} />;
+}
 
 function openPlaceholder(nav: PageNav, title: string) {
   nav.push({ name: "placeholder", title });
@@ -31,6 +54,8 @@ function openPlaceholder(nav: PageNav, title: string) {
 export function HomePage({ nav }: { nav: PageNav }) {
   const [bunnyLine, setBunnyLine] = useState(0);
   const [draft, setDraft] = useState(nav.route?.params?.draft ?? "");
+  const [readArticleIds, setReadArticleIds] = useState(getReadArticleIds);
+  const readCount = blogCards.filter((article) => readArticleIds.has(article.id)).length;
 
   const cycleBunnyDialogue = () => {
     setBunnyLine((current) => (current + 1) % bunnyDialogues.length);
@@ -42,6 +67,18 @@ export function HomePage({ nav }: { nav: PageNav }) {
       params: draft.trim() ? { draft: draft.trim() } : undefined
     });
     setDraft("");
+  };
+
+  const openArticle = (articleId: string, title: string) => {
+    setReadArticleIds((current) => {
+      const next = new Set(current);
+      next.add(articleId);
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem("soluna-read-articles", JSON.stringify(Array.from(next)));
+      }
+      return next;
+    });
+    openPlaceholder(nav, title);
   };
 
   return (
@@ -105,7 +142,7 @@ export function HomePage({ nav }: { nav: PageNav }) {
             {featuredPracticeCards.map((practice) => (
               <Card key={practice} onClick={() => openPlaceholder(nav, `${practice} practice`)}>
                 <div className="practice-card-content">
-                  <Sparkles size={18} />
+                  <PracticeIcon practice={practice} size={18} />
                   <strong>{practice}</strong>
                 </div>
               </Card>
@@ -115,7 +152,7 @@ export function HomePage({ nav }: { nav: PageNav }) {
             {exerciseCards.map((exercise) => (
               <Card key={exercise} className="exercise-card" onClick={() => openPlaceholder(nav, `${exercise} practice`)}>
                 <div className="practice-card-content">
-                  <Sparkles size={15} />
+                  <PracticeIcon practice={exercise} size={15} />
                   <strong>{exercise}</strong>
                 </div>
               </Card>
@@ -129,9 +166,9 @@ export function HomePage({ nav }: { nav: PageNav }) {
             <strong>Sleep Awareness</strong>
             <div className="weekly-task-row">
               <span>Read 3 articles</span>
-              <div className="mini-progress" aria-label={`${blogCards.filter((article) => article.read).length} of ${blogCards.length} articles read`}>
-                <span style={{ width: `${(blogCards.filter((article) => article.read).length / blogCards.length) * 100}%` }} />
-                <strong>1/3</strong>
+              <div className="mini-progress" aria-label={`${readCount} of ${blogCards.length} articles read`}>
+                <span style={{ width: `${(readCount / blogCards.length) * 100}%` }} />
+                <strong>{readCount}/3</strong>
               </div>
             </div>
             <div className="weekly-task-row">
@@ -145,13 +182,15 @@ export function HomePage({ nav }: { nav: PageNav }) {
           <div className="h-scroll card-rail article-rail">
             {blogCards
               .slice()
-              .sort((a, b) => Number(a.read) - Number(b.read))
-              .map((article) => (
-              <Card key={article.id} className="article-card" onClick={() => openPlaceholder(nav, article.title)}>
+              .sort((a, b) => Number(readArticleIds.has(a.id)) - Number(readArticleIds.has(b.id)))
+              .map((article) => {
+                const read = readArticleIds.has(article.id);
+                return (
+              <Card key={article.id} className="article-card" onClick={() => openArticle(article.id, article.title)}>
                 <div className="article-card-content">
-                  <div className="article-card-controls" aria-hidden="true">
-                    <span className={article.read ? "article-status-dot is-finished" : "article-status-dot"}>
-                      {article.read ? <Check size={18} /> : null}
+                  <div className="article-card-controls">
+                    <span className={read ? "article-status-dot is-finished" : "article-status-dot"} aria-label={read ? `${article.title} read` : `${article.title} unread`}>
+                      {read ? <Check size={18} /> : null}
                     </span>
                     <MoreHorizontal size={18} />
                   </div>
@@ -167,10 +206,11 @@ export function HomePage({ nav }: { nav: PageNav }) {
                     </small>
                     <small>{article.readTime}</small>
                   </div>
-                  {article.read ? <span className="chip">Read</span> : null}
+                  {read ? <span className="chip">Read</span> : null}
                 </div>
               </Card>
-              ))}
+              );
+              })}
           </div>
           <SecondaryButton type="button" className="see-all-blog-button" onClick={() => nav.push({ name: "library" })}>
             See all Blog

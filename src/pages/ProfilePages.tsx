@@ -36,7 +36,13 @@ export function ProfilePage({ nav }: ProfilePageProps) {
 
   return (
     <PhonePage withBottomNav>
-      <PhoneHeader title="Profile" left="none" right="bell" onNotifications={() => goPlaceholder(nav, "Notifications")} />
+      <PhoneHeader
+        title="Profile"
+        left="safety"
+        right="bell"
+        onSafety={() => nav.push({ name: "safety" })}
+        onNotifications={() => goPlaceholder(nav, "Notifications")}
+      />
       <PhoneScroll>
         <Section>
           <div className="phone-card" style={{ display: "grid", gap: 12 }}>
